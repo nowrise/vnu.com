@@ -1,0 +1,329 @@
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-sans/700.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Vriddhion & Udaanex Color Palette */
+    --background: 60 20% 97%; /* Soft Ivory #F9FAF7 */
+    --foreground: 220 15% 13%; /* Ink Charcoal #1C1F26 */
+
+    --card: 40 15% 82%; /* Stone Taupe #D8D2C6 */
+    --card-foreground: 220 15% 13%;
+
+    --popover: 60 20% 97%;
+    --popover-foreground: 220 15% 13%;
+
+    --primary: 42 40% 57%; /* Muted Gold #C6A75E */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 15% 82%; /* Stone Taupe */
+    --secondary-foreground: 220 15% 13%;
+
+    --muted: 90 8% 65%; /* Sage Grey #9FAEA1 */
+    --muted-foreground: 220 10% 40%;
+
+    --accent: 210 28% 21%; /* Deep Slate Blue #243447 */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 10% 85%;
+    --input: 40 10% 85%;
+    --ring: 42 40% 57%;
+
+    --radius: 0.5rem;
+
+    /* Glass Effects */
+    --glass-bg: 0 0% 100% / 0.6;
+    --glass-border: 0 0% 100% / 0.3;
+    --glass-blur: 16px;
+
+    /* Custom shadows */
+    --shadow-card: 0 4px 24px -4px hsl(220 15% 13% / 0.08);
+    --shadow-hover: 0 12px 32px -8px hsl(220 15% 13% / 0.15);
+    --shadow-glass: 0 8px 32px -8px hsl(220 15% 13% / 0.1);
+
+    /* Sidebar */
+    --sidebar-background: 60 20% 97%;
+    --sidebar-foreground: 220 15% 13%;
+    --sidebar-primary: 42 40% 57%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 15% 82%;
+    --sidebar-accent-foreground: 220 15% 13%;
+    --sidebar-border: 40 10% 85%;
+    --sidebar-ring: 42 40% 57%;
+  }
+
+  .dark {
+    --background: 220 15% 13%;
+    --foreground: 60 20% 97%;
+
+    --card: 210 28% 21%;
+    --card-foreground: 60 20% 97%;
+
+    --popover: 220 15% 13%;
+    --popover-foreground: 60 20% 97%;
+
+    --primary: 42 40% 57%;
+    --primary-foreground: 220 15% 13%;
+
+    --secondary: 210 28% 21%;
+    --secondary-foreground: 60 20% 97%;
+
+    --muted: 210 20% 25%;
+    --muted-foreground: 90 8% 65%;
+
+    --accent: 40 15% 82%;
+    --accent-foreground: 220 15% 13%;
+
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 60 20% 97%;
+
+    --border: 210 20% 25%;
+    --input: 210 20% 25%;
+    --ring: 42 40% 57%;
+
+    --sidebar-background: 220 15% 13%;
+    --sidebar-foreground: 60 20% 97%;
+    --sidebar-primary: 42 40% 57%;
+    --sidebar-primary-foreground: 220 15% 13%;
+    --sidebar-accent: 210 28% 21%;
+    --sidebar-accent-foreground: 60 20% 97%;
+    --sidebar-border: 210 20% 25%;
+    --sidebar-ring: 42 40% 57%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: "IBM Plex Sans", sans-serif;
+  }
+}
+
+@layer components {
+  /* Glass Card Effect */
+  .glass-card {
+    @apply relative overflow-hidden rounded-lg;
+    background: hsl(var(--glass-bg));
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--shadow-glass);
+  }
+
+  /* Premium Card Hover */
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-hover:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-6px) scale(1.01);
+  }
+
+  /* Hover Scale */
+  .hover-scale {
+    @apply transition-transform duration-300 ease-out;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
+
+  /* Hover Lift */
+  .hover-lift {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* Story Link - Underline Animation */
+  .story-link {
+    @apply relative inline-block;
+  }
+
+  .story-link::after {
+    content: '';
+    @apply absolute w-full scale-x-0 h-0.5 bottom-0 left-0 bg-primary origin-bottom-right transition-transform duration-300;
+  }
+
+  .story-link:hover::after {
+    @apply scale-x-100 origin-bottom-left;
+  }
+
+  /* Section Backgrounds */
+  .section-ivory {
+    @apply bg-background;
+  }
+
+  .section-slate {
+    background: hsl(var(--accent));
+    color: hsl(var(--accent-foreground));
+  }
+
+  .section-taupe {
+    background: hsl(var(--secondary));
+  }
+
+  /* Process Timeline */
+  .process-step {
+    @apply relative flex flex-col items-start;
+  }
+
+  .process-number {
+    @apply flex items-center justify-center w-12 h-12 rounded-full border-2 border-foreground text-foreground font-semibold text-lg;
+  }
+
+  .process-line {
+    @apply absolute top-6 left-12 w-full h-px bg-border;
+  }
+
+  /* Gold CTA */
+  .btn-gold {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded font-medium transition-all duration-300;
+  }
+
+  .btn-gold:hover {
+    @apply opacity-90;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(42 40% 57% / 0.3);
+  }
+
+  /* Outline Button */
+  .btn-outline {
+    @apply border border-foreground text-foreground px-6 py-3 rounded font-medium transition-all duration-300 bg-transparent;
+  }
+
+  .btn-outline:hover {
+    @apply bg-foreground text-background;
+  }
+
+  /* Service Card */
+  .service-card {
+    @apply p-8 rounded-lg transition-all duration-300;
+    background: hsl(var(--secondary));
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  /* Nav Link */
+  .nav-link {
+    @apply relative text-foreground/60 hover:text-foreground transition-all duration-300 py-1;
+  }
+
+  .nav-link.active {
+    @apply text-primary font-semibold;
+  }
+
+  .nav-link.active::after {
+    content: "";
+    @apply absolute -bottom-0.5 left-0 w-full h-0.5 bg-primary rounded-full;
+  }
+
+  /* Image Blend */
+  .image-blend {
+    @apply relative overflow-hidden rounded-xl;
+  }
+
+  .image-blend img {
+    @apply w-full h-full object-cover transition-transform duration-700;
+  }
+
+  .image-blend::before {
+    content: "";
+    @apply absolute inset-0 z-10 pointer-events-none;
+    background: linear-gradient(135deg, hsl(var(--background) / 0.3) 0%, transparent 50%, hsl(var(--background) / 0.2) 100%);
+  }
+
+  .image-blend::after {
+    content: "";
+    @apply absolute inset-0 z-10 pointer-events-none;
+    background: radial-gradient(ellipse at center, transparent 40%, hsl(var(--background) / 0.4) 100%);
+  }
+
+  .image-blend:hover img {
+    transform: scale(1.03);
+  }
+
+  /* Industry Card */
+  .industry-card {
+    @apply p-6 rounded-lg bg-background border border-border transition-all duration-300;
+  }
+
+  .industry-card:hover {
+    @apply border-primary;
+    transform: translateY(-2px);
+  }
+}
+
+@layer utilities {
+  /* Text styles */
+  .text-display {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-tight;
+  }
+
+  .text-heading {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight;
+  }
+
+  .text-subheading {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+
+  .text-body-large {
+    @apply text-lg text-muted-foreground leading-relaxed;
+  }
+
+  .text-label {
+    @apply text-xs uppercase tracking-widest font-medium text-primary;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section padding */
+  .section-padding {
+    @apply py-10 md:py-14 lg:py-16;
+  }
+
+  /* Animate on scroll */
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

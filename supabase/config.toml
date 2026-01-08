@@ -1,0 +1,7 @@
+project_id = "lhmkhcoysgpiaadoxjav"
+
+[functions.submit-form]
+verify_jwt = false
+
+[functions.check-admin]
+verify_jwt = false
