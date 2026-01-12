@@ -10,20 +10,18 @@ This guide will help you get started with using Vercel Web Analytics on your pro
 - A Vercel project. If you don't have one, you can [create a new project](https://vercel.com/new).
 - The Vercel CLI installed. If you don't have it, you can install it using the following command:
 
-### Installing Vercel CLI
-
 ```bash
 # Using pnpm
-pnpm add -D vercel
+pnpm i vercel
 
 # Using yarn
-yarn add -D vercel
+yarn i vercel
 
 # Using npm
-npm install -D vercel
+npm i vercel
 
 # Using bun
-bun add -D vercel
+bun i vercel
 ```
 
 ## Enable Web Analytics in Vercel
@@ -37,74 +35,31 @@ On the [Vercel dashboard](/dashboard), select your Project and then click the **
 
 Using the package manager of your choice, add the `@vercel/analytics` package to your project:
 
-### For Vite + React (Recommended for this project)
+### For NextJS, NextJS App Router, SvelteKit, Remix, Create React App, Nuxt, Vue, Other, Astro
+
+Add the `@vercel/analytics` package:
 
 ```bash
 # Using pnpm
-pnpm add @vercel/analytics
+pnpm i @vercel/analytics
 
 # Using yarn
-yarn add @vercel/analytics
+yarn i @vercel/analytics
 
 # Using npm
-npm install @vercel/analytics
+npm i @vercel/analytics
 
 # Using bun
-bun add @vercel/analytics
+bun i @vercel/analytics
 ```
 
 ## Add the `Analytics` component to your app
 
-### For React with Vite
+### For NextJS (Pages Directory)
 
-Since this project uses Vite with React, add the following code to your root layout or main app component:
+The `Analytics` component is a wrapper around the tracking script, offering more seamless integration with Next.js, including route support.
 
-**Option 1: Add to `src/main.tsx` (Recommended for this project)**
-
-```tsx
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Analytics } from '@vercel/analytics/react'
-import App from './App.tsx'
-import './index.css'
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-    <Analytics />
-  </React.StrictMode>,
-)
-```
-
-**Option 2: Add to `src/App.tsx`**
-
-```tsx
-import { Analytics } from '@vercel/analytics/react'
-// ... other imports
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            {/* Your routes */}
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
-    <Analytics />
-  </QueryClientProvider>
-);
-
-export default App;
-```
-
-### For Next.js (Pages Directory)
-
-If you were using Next.js with the pages directory:
+If you are using the `pages` directory, add the following code to your main app file:
 
 ```tsx
 import type { AppProps } from "next/app";
@@ -122,9 +77,26 @@ function MyApp({ Component, pageProps }: AppProps) {
 export default MyApp;
 ```
 
-### For Next.js (App Directory)
+```jsx
+import { Analytics } from "@vercel/analytics/next";
 
-If you were using Next.js with the app directory:
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Component {...pageProps} />
+      <Analytics />
+    </>
+  );
+}
+
+export default MyApp;
+```
+
+### For NextJS (App Router)
+
+The `Analytics` component is a wrapper around the tracking script, offering more seamless integration with Next.js, including route support.
+
+Add the following code to the root layout:
 
 ```tsx
 import { Analytics } from "@vercel/analytics/next";
@@ -137,7 +109,25 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>Your App</title>
+        <title>Next.js</title>
+      </head>
+      <body>
+        {children}
+        <Analytics />
+      </body>
+    </html>
+  );
+}
+```
+
+```jsx
+import { Analytics } from "@vercel/analytics/next";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <head>
+        <title>Next.js</title>
       </head>
       <body>
         {children}
@@ -149,6 +139,10 @@ export default function RootLayout({
 ```
 
 ### For Remix
+
+The `Analytics` component is a wrapper around the tracking script, offering a seamless integration with Remix, including route detection.
+
+Add the following code to your root file:
 
 ```tsx
 import {
@@ -182,31 +176,43 @@ export default function App() {
 }
 ```
 
-### For SvelteKit
+```jsx
+import {
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "@remix-run/react";
+import { Analytics } from "@vercel/analytics/remix";
 
-```ts
-import { dev } from "$app/environment";
-import { injectAnalytics } from "@vercel/analytics/sveltekit";
-
-injectAnalytics({ mode: dev ? "development" : "production" });
-```
-
-Add this to your main layout file (`src/routes/+layout.ts` or `src/routes/+layout.js`).
-
-### For Vue
-
-```tsx
-<script setup lang="ts">
-import { Analytics } from '@vercel/analytics/vue';
-</script>
-
-<template>
-  <Analytics />
-  <!-- your content -->
-</template>
+export default function App() {
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <Analytics />
+        <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  );
+}
 ```
 
 ### For Nuxt
+
+The `Analytics` component is a wrapper around the tracking script, offering more seamless integration with Nuxt, including route support.
+
+Add the following code to your main component.
 
 ```tsx
 <script setup lang="ts">
@@ -219,13 +225,65 @@ import { Analytics } from '@vercel/analytics/nuxt';
 </template>
 ```
 
+```jsx
+<script setup>
+import { Analytics } from '@vercel/analytics/nuxt';
+</script>
+
+<template>
+  <Analytics />
+  <NuxtPage />
+</template>
+```
+
+### For SvelteKit
+
+The `injectAnalytics` function is a wrapper around the tracking script, offering more seamless integration with SvelteKit.js, including route support.
+
+Add the following code to the main layout:
+
+```ts
+import { dev } from "$app/environment";
+import { injectAnalytics } from "@vercel/analytics/sveltekit";
+
+injectAnalytics({ mode: dev ? "development" : "production" });
+```
+
+```js
+import { dev } from "$app/environment";
+import { injectAnalytics } from "@vercel/analytics/sveltekit";
+
+injectAnalytics({ mode: dev ? "development" : "production" });
+```
+
 ### For Astro
+
+The `Analytics` component is a wrapper around the tracking script, offering more seamless integration with Astro, including route support.
 
 Add the following code to your base layout:
 
-```astro
+```tsx
 ---
 import Analytics from '@vercel/analytics/astro';
+{/* ... */}
+---
+
+<html lang="en">
+	<head>
+      <meta charset="utf-8" />
+      <!-- ... -->
+      <Analytics />
+	</head>
+	<body>
+		<slot />
+    </body>
+</html>
+```
+
+```jsx
+---
+import Analytics from '@vercel/analytics/astro';
+{/* ... */}
 ---
 
 <html lang="en">
@@ -258,11 +316,32 @@ export default defineConfig({
 });
 ```
 
+```js
+import { defineConfig } from "astro/config";
+import vercel from "@astrojs/vercel/serverless";
+
+export default defineConfig({
+  output: "server",
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true, // set to false when using @vercel/analytics@1.4.0
+    },
+  }),
+});
+```
+
 ### For Plain HTML
 
 For plain HTML sites, you can add the following script to your `.html` files:
 
-```html
+```ts
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+```
+
+```js
 <script>
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
@@ -284,6 +363,76 @@ Add the following code to your main app file:
 import { inject } from "@vercel/analytics";
 
 inject();
+```
+
+```js
+import { inject } from "@vercel/analytics";
+
+inject();
+```
+
+### For Create React App
+
+The `Analytics` component is a wrapper around the tracking script, offering more seamless integration with React.
+
+> **💡 Note:** When using the plain React implementation, there is no route support.
+
+Add the following code to the main app file:
+
+```tsx
+import { Analytics } from "@vercel/analytics/react";
+
+export default function App() {
+  return (
+    <div>
+      {/* ... */}
+      <Analytics />
+    </div>
+  );
+}
+```
+
+```jsx
+import { Analytics } from "@vercel/analytics/react";
+
+export default function App() {
+  return (
+    <div>
+      {/* ... */}
+      <Analytics />
+    </div>
+  );
+}
+```
+
+### For Vue
+
+The `Analytics` component is a wrapper around the tracking script, offering more seamless integration with Vue.
+
+> **💡 Note:** Route support is automatically enabled if you're using `vue-router`.
+
+Add the following code to your main component:
+
+```tsx
+<script setup lang="ts">
+import { Analytics } from '@vercel/analytics/vue';
+</script>
+
+<template>
+  <Analytics />
+  <!-- your content -->
+</template>
+```
+
+```jsx
+<script setup>
+import { Analytics } from '@vercel/analytics/vue';
+</script>
+
+<template>
+  <Analytics />
+  <!-- your content -->
+</template>
 ```
 
 ## Deploy your app to Vercel
@@ -333,24 +482,20 @@ For this specific project, which uses Vite with React, follow these steps:
 ### Step 1: Install the package
 
 ```bash
-pnpm add @vercel/analytics
+pnpm i @vercel/analytics
 ```
 
 ### Step 2: Add Analytics to your app
 
-Modify `src/App.tsx` to include the Analytics component:
+Modify `src/App.tsx` to include the Analytics component. Add the import at the top:
 
 ```tsx
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { Analytics } from "@vercel/analytics/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
-// ... other imports
+```
 
+Then update the return statement to include the Analytics component after the BrowserRouter closes but within the TooltipProvider:
+
+```tsx
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -359,7 +504,33 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            {/* existing routes */}
+            <Route path="/" element={<Index />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/ai-consulting" element={<AIConsulting />} />
+            <Route path="/talent-solutions" element={<TalentSolutions />} />
+            <Route path="/nowrise-institute" element={<NowRiseInstitute />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/f/:formId" element={<FormPage />} />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute requireAdmin>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
         <Analytics />
