@@ -1,20 +1,24 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { User, Session } from "@supabase/supabase-js";
+import { useContext, useEffect, useState, type ReactNode } from "react";
+import type { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { AuthContext } from "./auth-context";
 
-interface AuthContextType {
+export interface AuthContextType {
   user: User | null;
   session: Session | null;
   isLoading: boolean;
   isAdmin: boolean;
-  signUp: (email: string, password: string, fullName?: string) => Promise<{ error: Error | null }>;
+  signUp: (
+    email: string,
+    password: string,
+    fullName?: string
+  ) => Promise<{ error: Error | null }>;
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>;
   signInWithGoogle: () => Promise<{ error: Error | null }>;
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
@@ -66,14 +70,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const checkAdminRole = async (accessToken: string, userId: string) => {
-    // Check cache first
-    const cached = getCachedAdminStatus(userId);
-    if (cached !== null) {
-      return cached;
+  const checkAdminRole = async (accessToken: string, userId: string, forceRefresh = false) => {
+    // Check cache first (unless forcing refresh)
+    if (!forceRefresh) {
+      const cached = getCachedAdminStatus(userId);
+      if (cached !== null) {
+        console.log("Using cached admin status:", cached);
+        return cached;
+      }
     }
 
     try {
+      console.log("Checking admin role via edge function...");
       // Call backend edge function for secure server-side admin check
       const { data, error } = await supabase.functions.invoke("check-admin", {
         headers: {
@@ -81,16 +89,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
       });
 
+      console.log("Admin check response:", { data, error });
+
       if (error) {
         console.error("Error checking admin role:", error);
+        // Clear cache on error to allow retry
+        clearAdminCache();
         return false;
       }
       
       const isAdmin = data?.isAdmin === true;
+      console.log("Admin status result:", isAdmin);
       setCachedAdminStatus(userId, isAdmin);
       return isAdmin;
     } catch (error) {
       console.error("Error checking admin role:", error);
+      clearAdminCache();
       return false;
     }
   };
@@ -99,13 +113,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log("Auth state changed:", event);
         setSession(session);
         setUser(session?.user ?? null);
         setIsLoading(false);
 
         if (session?.user && session.access_token) {
+          // Force refresh on sign in events to ensure fresh admin check
+          const forceRefresh = event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED';
           setTimeout(() => {
-            checkAdminRole(session.access_token, session.user.id).then(setIsAdmin);
+            checkAdminRole(session.access_token, session.user.id, forceRefresh).then(setIsAdmin);
           }, 0);
         } else {
           setIsAdmin(false);
