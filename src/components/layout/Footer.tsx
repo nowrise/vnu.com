@@ -112,6 +112,15 @@ export const Footer = () => {
             >
               Terms of Service
             </Link>
+            <button
+              onClick={() => {
+                localStorage.removeItem('cookie-consent');
+                window.location.reload();
+              }}
+              className="text-sm text-accent-foreground/60 hover:text-accent-foreground transition-colors"
+            >
+              Cookie Settings
+            </button>
           </div>
         </div>
       </div>
