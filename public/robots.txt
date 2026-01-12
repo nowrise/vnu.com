@@ -18,7 +18,7 @@ Disallow: /auth
 Disallow: /profile
 
 # Sitemap location
-Sitemap: https://vnu.lovable.app/sitemap.xml
+Sitemap: https://vnuitsolutions.com/sitemap.xml
 
 # Crawl-delay (optional, be gentle)
 Crawl-delay: 1

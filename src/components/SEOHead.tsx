@@ -12,7 +12,7 @@ const defaultMeta = {
   title: "VnU IT Solutions - Enterprise Software, AI Consulting & Talent Solutions",
   description: "VnU IT Solutions delivers enterprise software development, AI consulting, and talent solutions. Transform your business with cutting-edge technology.",
   keywords: "IT solutions, software development, AI consulting, talent solutions, enterprise software, digital transformation",
-  ogImage: "https://vnu.lovable.app/og-image.png",
+  ogImage: "https://vnuitsolutions.com/og-image.png",
 };
 
 const pageMeta: Record<string, { title: string; description: string; keywords?: string }> = {
@@ -66,7 +66,7 @@ export const SEOHead = ({ title, description, keywords, ogImage }: SEOHeadProps)
   const finalDescription = description || currentPageMeta?.description || defaultMeta.description;
   const finalKeywords = keywords || currentPageMeta?.keywords || defaultMeta.keywords;
   const finalOgImage = ogImage || defaultMeta.ogImage;
-  const canonicalUrl = `https://vnu.lovable.app${pathname === "/" ? "" : pathname}`;
+  const canonicalUrl = `https://vnuitsolutions.com${pathname === "/" ? "" : pathname}`;
 
   useEffect(() => {
     // Update document title

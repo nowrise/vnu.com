@@ -5,6 +5,8 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   'https://lovable.dev',
+  'https://vnuitsolutions.com',
+  'https://www.vnuitsolutions.com',
 ];
 
 // Pattern-based allowed origins (subdomains)
