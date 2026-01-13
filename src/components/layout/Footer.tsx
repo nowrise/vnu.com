@@ -10,7 +10,7 @@ const footerLinks = {
   ],
   contact: [
     { name: "LinkedIn", path: "#" },
-    { name: "Email Us", path: "mailto:hello@vriddhion.com" },
+    { name: "Email Us", path: "mailto:info@vnuitsolutions.com" },
   ],
 };
 
@@ -36,9 +36,9 @@ export const Footer = () => {
             <div className="flex items-start gap-3 text-accent-foreground/80 mb-3">
               <MapPin size={18} className="mt-0.5 flex-shrink-0" />
               <span className="text-sm">
-                Tech Park Plaza, Sector 45
+                urmila nagar, Hasthinapur
                 <br />
-                Gurugram, Haryana 122003, India
+                Hyderabad, Telanagana, 500070, India
               </span>
             </div>
             <div className="flex items-center gap-3 text-accent-foreground/80">
@@ -47,7 +47,7 @@ export const Footer = () => {
                 href="mailto:hello@vriddhion.com"
                 className="text-sm hover:text-accent-foreground transition-colors"
               >
-                hello@vriddhion.com
+                info@vnuitsolutions.com
               </a>
             </div>
           </div>

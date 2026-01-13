@@ -101,17 +101,18 @@ export const Navbar = () => {
     >
       <nav className="container-custom flex items-center justify-between">
         {/* Brand */}
-        <Link to="/" className="flex items-center gap-3 hover-lift group">
-          <img src={logo} alt="VU Logo" className="w-10 h-10 object-contain" />
-          <div className="flex flex-col">
-            <span className="font-bold text-base tracking-tight text-foreground leading-tight">
-              VRIDDHION & UDAANEX
-            </span>
-            <span className="text-[10px] text-muted-foreground tracking-widest uppercase">
-              IT Solutions Pvt Ltd
-            </span>
-          </div>
-        </Link>
+        <Link to="/" className="flex items-center gap-3">
+  <img src={logo} alt="VU Logo" className="w-10 h-10 object-contain" />
+  <div className="flex flex-col">
+    <span className="font-bold text-base tracking-tight text-foreground leading-tight">
+      VRIDDHION & UDAANEX
+    </span>
+    <span className="text-[10px] text-muted-foreground tracking-widest uppercase">
+      IT Solutions Pvt Ltd
+    </span>
+  </div>
+</Link>
+
 
         {/* Desktop Navigation */}
         <div className="hidden lg:flex items-center gap-1">
