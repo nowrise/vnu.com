@@ -180,19 +180,19 @@ const Home = () => {
               icon={Code}
               title="IT Services & Engineering"
               items={["Web & App Development", "Custom Software Solutions", "Cloud Infrastructure & Integrations"]}
-              onLinkClick={() => {}}
+              //onLinkClick={() => {}}
             />
             <ServiceCard
               icon={Settings}
               title="AI & Business Consulting"
               items={["AI-powered Marketing Systems", "Automation & Workflow Optimization", "Business Growth Strategy"]}
-              onLinkClick={() => {}}
+              //onLinkClick={() => {}}
             />
             <ServiceCard
               icon={Users}
               title="Talent & Resource Solutions"
               items={["Skilled Interns & Freelancers", "Contract IT Resources", "Trainer & Specialist Onboarding"]}
-              onLinkClick={() => {}}
+              //onLinkClick={() => {}}
             />
           </div>
         </div>
