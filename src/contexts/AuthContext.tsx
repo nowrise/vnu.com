@@ -75,13 +75,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (!forceRefresh) {
       const cached = getCachedAdminStatus(userId);
       if (cached !== null) {
-        console.log("Using cached admin status:", cached);
+        if (import.meta.env.DEV) console.log("Using cached admin status:", cached);
         return cached;
       }
     }
 
     try {
-      console.log("Checking admin role via edge function...");
+      if (import.meta.env.DEV) console.log("Checking admin role via edge function...");
       // Call backend edge function for secure server-side admin check
       const { data, error } = await supabase.functions.invoke("check-admin", {
         headers: {
@@ -89,21 +89,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         },
       });
 
-      console.log("Admin check response:", { data, error });
+      if (import.meta.env.DEV) console.log("Admin check response:", { data, error });
 
       if (error) {
-        console.error("Error checking admin role:", error);
+        if (import.meta.env.DEV) console.error("Error checking admin role:", error);
         // Clear cache on error to allow retry
         clearAdminCache();
         return false;
       }
       
       const isAdmin = data?.isAdmin === true;
-      console.log("Admin status result:", isAdmin);
+      if (import.meta.env.DEV) console.log("Admin status result:", isAdmin);
       setCachedAdminStatus(userId, isAdmin);
       return isAdmin;
     } catch (error) {
-      console.error("Error checking admin role:", error);
+      if (import.meta.env.DEV) console.error("Error checking admin role:", error);
       clearAdminCache();
       return false;
     }
@@ -113,7 +113,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log("Auth state changed:", event);
+        if (import.meta.env.DEV) console.log("Auth state changed:", event);
         setSession(session);
         setUser(session?.user ?? null);
         setIsLoading(false);

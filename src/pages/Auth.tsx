@@ -4,10 +4,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, ArrowRight, Mail, Loader2 } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Mail, Loader2, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -45,12 +50,16 @@ const Auth = () => {
   const [searchParams] = useSearchParams();
   const isResetMode = searchParams.get("reset") === "true";
   
-  const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot" | "reset">(
+  const [authMode, setAuthMode] = useState<"login" | "signup" | "forgot" | "reset" | "otp">(
     isResetMode ? "reset" : "login"
   );
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [otpValue, setOtpValue] = useState("");
+  const [pendingLoginData, setPendingLoginData] = useState<LoginFormData | null>(null);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [otpResendTimer, setOtpResendTimer] = useState(0);
   const navigate = useNavigate();
   const { signIn, signUp, signInWithGoogle, resetPassword, user } = useAuth();
 
@@ -60,6 +69,14 @@ const Auth = () => {
       navigate("/");
     }
   }, [user, navigate, isResetMode]);
+
+  // OTP resend timer countdown
+  useEffect(() => {
+    if (otpResendTimer > 0) {
+      const timer = setTimeout(() => setOtpResendTimer(otpResendTimer - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [otpResendTimer]);
 
   const loginForm = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -77,34 +94,198 @@ const Auth = () => {
     resolver: zodResolver(resetPasswordSchema),
   });
 
+  const sendOTP = async (email: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke("send-otp", {
+        body: { action: "send", email },
+      });
+
+      if (error) {
+        console.error("OTP send error:", error);
+        return { success: false, error: error.message };
+      }
+
+      if (data?.error) {
+        return { success: false, error: data.error };
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("OTP send error:", error);
+      return { success: false, error: "Failed to send OTP" };
+    }
+  };
+
+  const verifyOTP = async (email: string, otp: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke("send-otp", {
+        body: { action: "verify", email, otp },
+      });
+
+      if (error) {
+        console.error("OTP verify error:", error);
+        return { success: false, error: error.message };
+      }
+
+      if (data?.error) {
+        return { success: false, error: data.error, attemptsLeft: data.attemptsLeft };
+      }
+
+      return { success: true, verified: data?.verified };
+    } catch (error) {
+      console.error("OTP verify error:", error);
+      return { success: false, error: "Failed to verify OTP" };
+    }
+  };
+
+  const checkUserExists = async (email: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke("send-otp", {
+        body: { action: "check-user", email },
+      });
+
+      if (error) {
+        console.error("User check error:", error);
+        return false;
+      }
+
+      return data?.exists === true;
+    } catch (error) {
+      console.error("User check error:", error);
+      return false;
+    }
+  };
+
   const handleLogin = async (data: LoginFormData) => {
     setIsSubmitting(true);
     try {
+      // First verify credentials with Supabase (but don't complete login)
       const { error } = await signIn(data.email, data.password);
+      
       if (error) {
         toast({
           title: "Authentication failed",
           description: "Invalid email or password. Please try again.",
           variant: "destructive",
         });
-      } else {
-        toast({
-          title: "Welcome back!",
-          description: "You have successfully logged in.",
-        });
-        setTimeout(() => {
-          navigate("/");
-        }, 100);
+        setIsSubmitting(false);
+        return;
       }
+
+      // Sign out immediately - we need OTP verification first
+      await supabase.auth.signOut();
+      
+      // Store credentials and send OTP
+      setPendingLoginData(data);
+      setIsSendingOtp(true);
+      
+      const otpResult = await sendOTP(data.email);
+      
+      if (!otpResult.success) {
+        toast({
+          title: "Failed to send OTP",
+          description: otpResult.error || "Please try again.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        setIsSendingOtp(false);
+        return;
+      }
+
+      toast({
+        title: "OTP Sent",
+        description: "Please check your email for the verification code.",
+      });
+      
+      setAuthMode("otp");
+      setOtpResendTimer(60);
+      setIsSubmitting(false);
+      setIsSendingOtp(false);
     } catch (error) {
+      console.error("Login error:", error);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
         variant: "destructive",
       });
-    } finally {
+      setIsSubmitting(false);
+      setIsSendingOtp(false);
+    }
+  };
+
+  const handleOTPVerification = async () => {
+    if (otpValue.length !== 6 || !pendingLoginData) return;
+
+    setIsSubmitting(true);
+    try {
+      const result = await verifyOTP(pendingLoginData.email, otpValue);
+
+      if (!result.success) {
+        toast({
+          title: "Invalid OTP",
+          description: result.error || "Please try again.",
+          variant: "destructive",
+        });
+        setOtpValue("");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // OTP verified, now complete the login
+      const { error } = await signIn(pendingLoginData.email, pendingLoginData.password);
+      
+      if (error) {
+        toast({
+          title: "Login failed",
+          description: "Please try again.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      toast({
+        title: "Welcome back!",
+        description: "You have successfully logged in.",
+      });
+      
+      setPendingLoginData(null);
+      setOtpValue("");
+      setTimeout(() => {
+        navigate("/");
+      }, 100);
+    } catch (error) {
+      console.error("OTP verification error:", error);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
       setIsSubmitting(false);
     }
+  };
+
+  const handleResendOTP = async () => {
+    if (!pendingLoginData || otpResendTimer > 0) return;
+
+    setIsSendingOtp(true);
+    const result = await sendOTP(pendingLoginData.email);
+    
+    if (result.success) {
+      toast({
+        title: "OTP Resent",
+        description: "Please check your email for the new verification code.",
+      });
+      setOtpResendTimer(60);
+      setOtpValue("");
+    } else {
+      toast({
+        title: "Failed to resend OTP",
+        description: result.error || "Please try again.",
+        variant: "destructive",
+      });
+    }
+    setIsSendingOtp(false);
   };
 
   const handleSignup = async (data: SignupFormData) => {
@@ -161,17 +342,28 @@ const Auth = () => {
   const handleForgotPassword = async (data: ForgotPasswordFormData) => {
     setIsSubmitting(true);
     try {
-      // Always attempt password reset without checking existence to prevent user enumeration
+      // Check if user exists
+      const userExists = await checkUserExists(data.email);
+      
+      if (!userExists) {
+        toast({
+          title: "Account not found",
+          description: "No account exists with this email address.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // User exists, send password reset email
       await resetPassword(data.email);
       
-      // Always show same generic message regardless of whether email exists
       toast({
-        title: "Check your email",
-        description: "If an account exists with this email, you will receive password reset instructions.",
+        title: "Reset link sent!",
+        description: "Check your email for the password reset link.",
       });
       setAuthMode("login");
     } catch (error) {
-      // Generic error message that doesn't reveal details
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -244,7 +436,24 @@ const Auth = () => {
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.2 }}
             >
-              {authMode === "reset" ? (
+              {authMode === "otp" ? (
+                <>
+                  <div className="flex justify-center mb-4">
+                    <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
+                      <ShieldCheck className="w-8 h-8 text-primary" />
+                    </div>
+                  </div>
+                  <h1 className="text-2xl font-bold text-center mb-2">
+                    Verify OTP
+                  </h1>
+                  <p className="text-muted-foreground text-center mb-2">
+                    Enter the 6-digit code sent to
+                  </p>
+                  <p className="text-foreground text-center font-medium mb-6">
+                    {pendingLoginData?.email}
+                  </p>
+                </>
+              ) : authMode === "reset" ? (
                 <>
                   <h1 className="text-2xl font-bold text-center mb-2">
                     Reset Password
@@ -349,6 +558,68 @@ const Auth = () => {
                 </div>
               </div>
             </>
+          )}
+
+          {/* OTP Verification Form */}
+          {authMode === "otp" && (
+            <div className="space-y-6">
+              <div className="flex justify-center">
+                <InputOTP
+                  value={otpValue}
+                  onChange={setOtpValue}
+                  maxLength={6}
+                  onComplete={handleOTPVerification}
+                >
+                  <InputOTPGroup>
+                    <InputOTPSlot index={0} />
+                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={2} />
+                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={4} />
+                    <InputOTPSlot index={5} />
+                  </InputOTPGroup>
+                </InputOTP>
+              </div>
+
+              <button
+                onClick={handleOTPVerification}
+                disabled={isSubmitting || otpValue.length !== 6}
+                className="btn-gold w-full flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {isSubmitting ? <LoadingSpinner /> : null}
+                {isSubmitting ? "Verifying..." : "Verify & Login"}
+              </button>
+
+              <div className="text-center space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Didn't receive the code?
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResendOTP}
+                  disabled={isSendingOtp || otpResendTimer > 0}
+                  className="text-sm text-primary hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSendingOtp
+                    ? "Sending..."
+                    : otpResendTimer > 0
+                    ? `Resend in ${otpResendTimer}s`
+                    : "Resend OTP"}
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode("login");
+                  setPendingLoginData(null);
+                  setOtpValue("");
+                }}
+                className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
+              >
+                ← Back to login
+              </button>
+            </div>
           )}
 
           {/* Reset Password Form */}
@@ -500,7 +771,7 @@ const Auth = () => {
                 className="btn-gold w-full flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSubmitting ? <LoadingSpinner /> : null}
-                {isSubmitting ? "Signing in..." : "Sign In"}
+                {isSubmitting ? (isSendingOtp ? "Sending OTP..." : "Verifying...") : "Sign In"}
                 {!isSubmitting && <ArrowRight size={16} />}
               </button>
             </form>
