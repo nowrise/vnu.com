@@ -60,15 +60,16 @@ const Auth = () => {
   const [pendingLoginData, setPendingLoginData] = useState<LoginFormData | null>(null);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [otpResendTimer, setOtpResendTimer] = useState(0);
+  const [awaitingOtpVerification, setAwaitingOtpVerification] = useState(false);
   const navigate = useNavigate();
   const { signIn, signUp, signInWithGoogle, resetPassword, user } = useAuth();
 
-  // Redirect if already logged in
+  // Redirect if already logged in (but not if awaiting OTP verification)
   useEffect(() => {
-    if (user && !isResetMode) {
+    if (user && !isResetMode && !awaitingOtpVerification && authMode !== "otp") {
       navigate("/");
     }
-  }, [user, navigate, isResetMode]);
+  }, [user, navigate, isResetMode, awaitingOtpVerification, authMode]);
 
   // OTP resend timer countdown
   useEffect(() => {
@@ -159,10 +160,14 @@ const Auth = () => {
   const handleLogin = async (data: LoginFormData) => {
     setIsSubmitting(true);
     try {
+      // Set flag to prevent redirect during OTP verification
+      setAwaitingOtpVerification(true);
+      
       // First verify credentials with Supabase (but don't complete login)
       const { error } = await signIn(data.email, data.password);
       
       if (error) {
+        setAwaitingOtpVerification(false);
         toast({
           title: "Authentication failed",
           description: "Invalid email or password. Please try again.",
@@ -182,6 +187,7 @@ const Auth = () => {
       const otpResult = await sendOTP(data.email);
       
       if (!otpResult.success) {
+        setAwaitingOtpVerification(false);
         toast({
           title: "Failed to send OTP",
           description: otpResult.error || "Please try again.",
@@ -202,7 +208,10 @@ const Auth = () => {
       setIsSubmitting(false);
       setIsSendingOtp(false);
     } catch (error) {
-      console.error("Login error:", error);
+      if (import.meta.env.DEV) {
+        console.error("Login error:", error);
+      }
+      setAwaitingOtpVerification(false);
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -231,7 +240,8 @@ const Auth = () => {
         return;
       }
 
-      // OTP verified, now complete the login
+      // OTP verified, clear flag and complete the login
+      setAwaitingOtpVerification(false);
       const { error } = await signIn(pendingLoginData.email, pendingLoginData.password);
       
       if (error) {
@@ -255,7 +265,9 @@ const Auth = () => {
         navigate("/");
       }, 100);
     } catch (error) {
-      console.error("OTP verification error:", error);
+      if (import.meta.env.DEV) {
+        console.error("OTP verification error:", error);
+      }
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -614,6 +626,7 @@ const Auth = () => {
                   setAuthMode("login");
                   setPendingLoginData(null);
                   setOtpValue("");
+                  setAwaitingOtpVerification(false);
                 }}
                 className="w-full text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
