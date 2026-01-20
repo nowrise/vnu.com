@@ -20,10 +20,10 @@ const organizationSchema = {
   email: "hello@vriddhion.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Tech Park Plaza, Sector 45",
-    addressLocality: "Gurugram",
-    addressRegion: "Haryana",
-    postalCode: "122003",
+    streetAddress: "Hyderabad",
+    addressLocality: "Hyderabad",
+    addressRegion: "Telangana",
+    postalCode: "500081",
     addressCountry: "IN",
   },
   geo: {
@@ -37,7 +37,7 @@ const organizationSchema = {
     { "@type": "Country", name: "United Kingdom" },
   ],
   sameAs: [
-    "https://www.linkedin.com/company/vnu-it-solutions",
+    "https://www.linkedin.com/company/vnuitsolutions",
   ],
   contactPoint: [
     {

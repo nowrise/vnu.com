@@ -45,7 +45,7 @@ const Home = () => {
             >
               <h1 id="hero-title" className="text-display mb-6">Technology, AI & Talent Solutions for Growing Businesses</h1>
               <p className="text-body-large mb-8 max-w-lg">
-                Vriddhion & Udaanex IT Solutions Pvt Ltd is an IT and consulting company delivering technology,
+                VnU IT Solutions Pvt Ltd is an IT and consulting company delivering technology,
                 AI-driven growth, and skilled talent solutions for modern businesses.
               </p>
               <div className="flex flex-wrap gap-4">
@@ -182,19 +182,19 @@ const Home = () => {
               icon={Code}
               title="IT Services & Engineering"
               items={["Web & App Development", "Custom Software Solutions", "Cloud Infrastructure & Integrations"]}
-              onLinkClick={() => {}}
+              //onLinkClick={() => {}}
             />
             <ServiceCard
               icon={Settings}
               title="AI & Business Consulting"
               items={["AI-powered Marketing Systems", "Automation & Workflow Optimization", "Business Growth Strategy"]}
-              onLinkClick={() => {}}
+              //onLinkClick={() => {}}
             />
             <ServiceCard
               icon={Users}
               title="Talent & Resource Solutions"
               items={["Skilled Interns & Freelancers", "Contract IT Resources", "Trainer & Specialist Onboarding"]}
-              onLinkClick={() => {}}
+              //onLinkClick={() => {}}
             />
           </div>
         </div>
@@ -296,7 +296,7 @@ const Home = () => {
           >
             <h2 className="text-heading mb-4">Looking for Technology, Talent, or Growth?</h2>
             <p className="text-body-large mb-8">
-              Partner with Vriddhion & Udaanex IT Solutions for enterprise-grade outcomes.
+              Partner with VnU IT Solutions for enterprise-grade outcomes.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>

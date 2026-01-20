@@ -105,7 +105,7 @@ export const Navbar = () => {
   <img src={logo} alt="VU Logo" className="w-10 h-10 object-contain" />
   <div className="flex flex-col">
     <span className="font-bold text-base tracking-tight text-foreground leading-tight">
-      VRIDDHION & UDAANEX
+      VnU
     </span>
     <span className="text-[10px] text-muted-foreground tracking-widest uppercase">
       IT Solutions Pvt Ltd

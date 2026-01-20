@@ -9,7 +9,7 @@ const footerLinks = {
     { name: "Contact", path: "/contact" },
   ],
   contact: [
-    { name: "LinkedIn", path: "#" },
+    { name: "LinkedIn", path: "https://www.linkedin.com/company/vnuitsolutions" },
     { name: "Email Us", path: "mailto:info@vnuitsolutions.com" },
   ],
 };
@@ -23,7 +23,7 @@ export const Footer = () => {
           <div className="lg:col-span-2">
             <div className="flex flex-col mb-4">
               <span className="font-bold text-lg tracking-tight">
-                VRIDDHION & UDAANEX
+                VnU
               </span>
               <span className="text-xs text-accent-foreground/70 tracking-wide">
                 IT SOLUTIONS PVT LTD
@@ -36,9 +36,9 @@ export const Footer = () => {
             <div className="flex items-start gap-3 text-accent-foreground/80 mb-3">
               <MapPin size={18} className="mt-0.5 flex-shrink-0" />
               <span className="text-sm">
-                urmila nagar, Hasthinapur
+                Hyderabad
                 <br />
-                Hyderabad, Telanagana, 500070, India
+                Hyderabad, Telangana, 500081, India
               </span>
             </div>
             <div className="flex items-center gap-3 text-accent-foreground/80">
@@ -96,7 +96,7 @@ export const Footer = () => {
       <div className="border-t border-accent-foreground/10">
         <div className="container-custom py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-accent-foreground/60">
-            © {new Date().getFullYear()} Vriddhion & Udaanex IT Solutions Pvt
+            © {new Date().getFullYear()} VnU IT Solutions Pvt
             Ltd. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
