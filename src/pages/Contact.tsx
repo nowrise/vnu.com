@@ -234,7 +234,7 @@ const Contact = () => {
               </div>
 
               <div className="mt-12 p-6 bg-secondary rounded-lg">
-                <h4 className="font-semibold mb-4">VnU</h4>
+                <h4 className="font-semibold mb-4">VnU IT Solutions Pvt Ltd</h4>
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="mt-0.5 flex-shrink-0" />
