@@ -1,8 +1,11 @@
 # VnU IT Solutions - Robots.txt
-# Allow all search engines to crawl public pages
+# Production-safe configuration for optimal crawling
 
+# Default rules for all crawlers
 User-agent: *
 Allow: /
+
+# Core pages - explicitly allow
 Allow: /services
 Allow: /ai-consulting
 Allow: /talent-solutions
@@ -11,14 +14,61 @@ Allow: /careers
 Allow: /about
 Allow: /contact
 
-# Block admin and auth pages
+# Block admin, auth, and user-specific pages
 Disallow: /admin
 Disallow: /admin/*
 Disallow: /auth
 Disallow: /profile
+Disallow: /form/*
 
-# Sitemap location
+# Block query strings that create duplicate content
+Disallow: /*?*
+Allow: /*?utm_source=*
+Allow: /*?utm_medium=*
+Allow: /*?utm_campaign=*
+
+# Block common non-content paths
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Googlebot-specific rules (more aggressive crawling allowed)
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /profile
+
+# Googlebot Image
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /images/
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# Bingbot
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /auth
+Disallow: /profile
+
+# Block AI training bots (optional - uncomment if desired)
+# User-agent: GPTBot
+# Disallow: /
+# User-agent: ChatGPT-User
+# Disallow: /
+# User-agent: CCBot
+# Disallow: /
+
+# Sitemap location (critical for discovery)
 Sitemap: https://vnuitsolutions.com/sitemap.xml
 
-# Crawl-delay (optional, be gentle)
+# Crawl-delay for respectful crawling (1 second)
 Crawl-delay: 1
+
+# Host directive for preferred domain
+Host: https://vnuitsolutions.com

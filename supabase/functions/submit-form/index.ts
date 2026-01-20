@@ -127,6 +127,61 @@ function validateNowriseApplication(data: Record<string, unknown>): { valid: boo
   return { valid: true };
 }
 
+function validateCustomFormSubmission(data: Record<string, unknown>, formId: unknown): { valid: boolean; error?: string } {
+  // Validate form_id is a valid UUID
+  if (!formId || typeof formId !== 'string') {
+    return { valid: false, error: 'Form ID is required' };
+  }
+  
+  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(formId)) {
+    return { valid: false, error: 'Invalid form ID format' };
+  }
+
+  // Validate submission_data structure
+  if (!data || typeof data !== 'object') {
+    return { valid: false, error: 'Submission data is required' };
+  }
+
+  // Check total size of submission data (limit to 50KB)
+  const dataString = JSON.stringify(data);
+  if (dataString.length > 51200) {
+    return { valid: false, error: 'Submission data is too large' };
+  }
+
+  // Validate each field value
+  for (const [key, value] of Object.entries(data)) {
+    // Key validation
+    if (typeof key !== 'string' || key.length > 100) {
+      return { valid: false, error: 'Invalid field name' };
+    }
+
+    // Value validation
+    if (typeof value === 'string') {
+      if (value.length > 5000) {
+        return { valid: false, error: `Field "${key}" exceeds maximum length` };
+      }
+    } else if (Array.isArray(value)) {
+      // For checkbox/multi-select fields
+      if (value.length > 50) {
+        return { valid: false, error: `Field "${key}" has too many selections` };
+      }
+      for (const item of value) {
+        if (typeof item !== 'string' || item.length > 500) {
+          return { valid: false, error: `Invalid value in field "${key}"` };
+        }
+      }
+    } else if (value !== null && value !== undefined) {
+      // Allow numbers, booleans
+      if (typeof value !== 'number' && typeof value !== 'boolean') {
+        return { valid: false, error: `Invalid value type for field "${key}"` };
+      }
+    }
+  }
+
+  return { valid: true };
+}
+
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req);
   
@@ -141,7 +196,10 @@ serve(async (req) => {
                      req.headers.get('x-real-ip') || 
                      'unknown';
 
-    const { formType, data, honeypot } = await req.json();
+    const body = await req.json();
+    const { formType, data, honeypot, formId } = body;
+    // Store formId for later use in validation
+    (req as any)._formId = formId;
 
     // Honeypot check - if this field has any value, it's likely a bot
     if (honeypot) {
@@ -154,7 +212,7 @@ serve(async (req) => {
     }
 
     // Validate form type
-    const validFormTypes = ['contact_requests', 'career_applications', 'nowrise_applications'];
+    const validFormTypes = ['contact_requests', 'career_applications', 'nowrise_applications', 'form_submissions'];
     if (!validFormTypes.includes(formType)) {
       console.error(`Invalid form type: ${formType}`);
       return new Response(
@@ -199,6 +257,10 @@ serve(async (req) => {
       case 'nowrise_applications':
         validation = validateNowriseApplication(data);
         break;
+      case 'form_submissions':
+        const formId = (req as any)._formId || data.form_id;
+        validation = validateCustomFormSubmission(data.submission_data || data, formId);
+        break;
       default:
         validation = { valid: false, error: 'Unknown form type' };
     }
@@ -216,20 +278,43 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Sanitize and insert data
-    const sanitizedData: Record<string, unknown> = {};
-    for (const [key, value] of Object.entries(data)) {
+    // Sanitize data
+    function sanitizeValue(value: unknown): unknown {
       if (typeof value === 'string') {
-        // Basic sanitization - trim and limit length
-        sanitizedData[key] = value.trim().slice(0, 5000);
-      } else {
-        sanitizedData[key] = value;
+        return value.trim().slice(0, 5000);
+      } else if (Array.isArray(value)) {
+        return value.map(v => typeof v === 'string' ? v.trim().slice(0, 500) : v);
+      }
+      return value;
+    }
+
+    let insertData: Record<string, unknown>;
+    
+    if (formType === 'form_submissions') {
+      // Handle custom form submissions
+      const submissionData = data.submission_data || data;
+      const sanitizedSubmission: Record<string, unknown> = {};
+      
+      for (const [key, value] of Object.entries(submissionData)) {
+        sanitizedSubmission[key] = sanitizeValue(value);
+      }
+      
+      insertData = {
+        form_id: formId,
+        submission_data: sanitizedSubmission,
+        status: 'pending'
+      };
+    } else {
+      // Handle legacy form types
+      insertData = {};
+      for (const [key, value] of Object.entries(data)) {
+        insertData[key] = sanitizeValue(value);
       }
     }
 
     const { error: insertError } = await supabase
       .from(formType)
-      .insert(sanitizedData);
+      .insert(insertData);
 
     if (insertError) {
       console.error(`Database insert error for ${formType}:`, insertError);

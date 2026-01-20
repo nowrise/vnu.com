@@ -31,8 +31,9 @@ const Home = () => {
   return (
     <Layout>
       <SEOHead />
-      {/* Hero Section */}
-      <section ref={heroRef} className="section-padding pt-32 md:pt-40 overflow-hidden">
+      {/* Hero Section - Semantic HTML with proper heading hierarchy */}
+      <header>
+        <section ref={heroRef} className="section-padding pt-32 md:pt-40 overflow-hidden" aria-labelledby="hero-title">
         <div className="container-custom">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
@@ -42,7 +43,7 @@ const Home = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h1 className="text-display mb-6">Technology, AI & Talent Solutions for Growing Businesses</h1>
+              <h1 id="hero-title" className="text-display mb-6">Technology, AI & Talent Solutions for Growing Businesses</h1>
               <p className="text-body-large mb-8 max-w-lg">
                 Vriddhion & Udaanex IT Solutions Pvt Ltd is an IT and consulting company delivering technology,
                 AI-driven growth, and skilled talent solutions for modern businesses.
@@ -163,8 +164,9 @@ const Home = () => {
               </motion.div>
             </motion.div>
           </div>
-        </div>
-      </section>
+          </div>
+        </section>
+      </header>
 
       {/* Services Section */}
       <section className="section-padding">
@@ -180,19 +182,19 @@ const Home = () => {
               icon={Code}
               title="IT Services & Engineering"
               items={["Web & App Development", "Custom Software Solutions", "Cloud Infrastructure & Integrations"]}
-              //onLinkClick={() => {}}
+              onLinkClick={() => {}}
             />
             <ServiceCard
               icon={Settings}
               title="AI & Business Consulting"
               items={["AI-powered Marketing Systems", "Automation & Workflow Optimization", "Business Growth Strategy"]}
-              //onLinkClick={() => {}}
+              onLinkClick={() => {}}
             />
             <ServiceCard
               icon={Users}
               title="Talent & Resource Solutions"
               items={["Skilled Interns & Freelancers", "Contract IT Resources", "Trainer & Specialist Onboarding"]}
-              //onLinkClick={() => {}}
+              onLinkClick={() => {}}
             />
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState, type ReactNode } from "react";
 import type { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { AuthContext } from "./auth-context";
+import { setUserContext, clearUserContext, addBreadcrumb } from "@/lib/error-monitoring";
 
 export interface AuthContextType {
   user: User | null;
@@ -118,13 +119,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setUser(session?.user ?? null);
         setIsLoading(false);
 
+        // Track auth events in Sentry
+        addBreadcrumb(`Auth state: ${event}`, "auth");
+
         if (session?.user && session.access_token) {
+          // Set user context for Sentry error tracking
+          setUserContext({ id: session.user.id, email: session.user.email });
+          
           // Force refresh on sign in events to ensure fresh admin check
           const forceRefresh = event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED';
           setTimeout(() => {
             checkAdminRole(session.access_token, session.user.id, forceRefresh).then(setIsAdmin);
           }, 0);
         } else {
+          // Clear Sentry user context on logout
+          clearUserContext();
           setIsAdmin(false);
           clearAdminCache();
         }
@@ -138,6 +147,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setIsLoading(false);
 
       if (session?.user && session.access_token) {
+        // Set user context for Sentry error tracking
+        setUserContext({ id: session.user.id, email: session.user.email });
         checkAdminRole(session.access_token, session.user.id).then(setIsAdmin);
       }
     });

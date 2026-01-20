@@ -198,8 +198,8 @@ Deno.serve(async (req) => {
         }
         console.log(`OTP email sent successfully to ${email}`);
       } else {
-        // Log OTP for testing when Resend is not configured
-        console.log(`OTP for ${email}: ${generatedOTP} (Resend not configured - check edge function logs)`);
+        // SECURITY: Never log OTP values - only log that OTP was generated
+        console.warn(`RESEND_API_KEY not configured - OTP generated for ${email} but email not sent. Configure RESEND_API_KEY secret for production use.`);
       }
       
       return new Response(

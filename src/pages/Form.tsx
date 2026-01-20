@@ -40,6 +40,7 @@ const FormPage = () => {
   const [formData, setFormData] = useState<Record<string, string | string[]>>({});
   const [ratings, setRatings] = useState<Record<string, number>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
 
   const { data: form, isLoading, error } = useQuery({
     queryKey: ["public-form", formId],
@@ -62,21 +63,38 @@ const FormPage = () => {
 
   const submitMutation = useMutation({
     mutationFn: async (data: Record<string, unknown>) => {
-      const { error } = await supabase
-        .from("form_submissions")
-        .insert({
-          form_id: formId,
-          submission_data: { ...data, source },
-          status: "new"
-        });
-      if (error) throw error;
+      // Submit through edge function with all security controls
+      const response = await supabase.functions.invoke('submit-form', {
+        body: {
+          formType: 'form_submissions',
+          formId: formId,
+          data: {
+            submission_data: { ...data, source }
+          },
+          honeypot: honeypot
+        }
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to submit form');
+      }
+
+      const result = response.data;
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      return result;
     },
     onSuccess: () => {
       setIsSubmitted(true);
       toast.success("Form submitted successfully!");
     },
-    onError: () => {
-      toast.error("Failed to submit form. Please try again.");
+    onError: (error: Error) => {
+      const message = error.message.includes('Too many requests')
+        ? "Too many submissions. Please wait a moment and try again."
+        : "Failed to submit form. Please try again.";
+      toast.error(message);
     }
   });
 
@@ -265,6 +283,18 @@ const FormPage = () => {
                       <p className="text-muted-foreground">{form.description}</p>
                     )}
                   </div>
+
+                  {/* Honeypot field - hidden from users, visible to bots */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
 
                   {form.fields.map((field) => (
                     <div key={field.id} className="space-y-2">

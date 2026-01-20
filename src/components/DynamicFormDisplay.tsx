@@ -43,6 +43,7 @@ export const DynamicFormDisplay = ({ pageName }: DynamicFormDisplayProps) => {
   const [formData, setFormData] = useState<Record<string, string | string[]>>({});
   const [submitted, setSubmitted] = useState<string | null>(null);
   const [ratings, setRatings] = useState<Record<string, number>>({});
+  const [honeypot, setHoneypot] = useState("");
 
   const { data: forms, isLoading } = useQuery({
     queryKey: ["published-forms", pageName],
@@ -69,25 +70,45 @@ export const DynamicFormDisplay = ({ pageName }: DynamicFormDisplayProps) => {
 
   const submitForm = useMutation({
     mutationFn: async ({ formId, data }: { formId: string; data: Record<string, string | string[]> }) => {
-      const { error } = await supabase.from("form_submissions").insert({
-        form_id: formId,
-        submission_data: data,
+      // Check honeypot - if filled, silently succeed (bot detection)
+      const response = await supabase.functions.invoke('submit-form', {
+        body: {
+          formType: 'form_submissions',
+          formId,
+          data: {
+            submission_data: data
+          },
+          honeypot: honeypot
+        }
       });
 
-      if (error) throw error;
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to submit form');
+      }
+
+      const result = response.data;
+      if (result?.error) {
+        throw new Error(result.error);
+      }
+
+      return result;
     },
     onSuccess: (_, variables) => {
       setSubmitted(variables.formId);
       setFormData({});
       setRatings({});
+      setHoneypot("");
       setTimeout(() => {
         setSubmitted(null);
         setOpenPopupId(null);
       }, 2500);
       toast({ title: "Form submitted successfully!" });
     },
-    onError: () => {
-      toast({ title: "Failed to submit form", variant: "destructive" });
+    onError: (error: Error) => {
+      const message = error.message.includes('Too many requests') 
+        ? "Too many submissions. Please wait a moment." 
+        : "Failed to submit form";
+      toast({ title: message, variant: "destructive" });
     },
   });
 
@@ -297,6 +318,17 @@ export const DynamicFormDisplay = ({ pageName }: DynamicFormDisplayProps) => {
 
     return (
       <form onSubmit={(e) => handleSubmit(form, e)} className="space-y-5">
+        {/* Honeypot field - hidden from users, visible to bots */}
+        <input
+          type="text"
+          name="website"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+          style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+        />
         {form.fields.map((field) => (
           <motion.div
             key={field.id}
