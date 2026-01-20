@@ -234,14 +234,14 @@ const Contact = () => {
               </div>
 
               <div className="mt-12 p-6 bg-secondary rounded-lg">
-                <h4 className="font-semibold mb-4">Vriddhion & Udaanex</h4>
+                <h4 className="font-semibold mb-4">VnU</h4>
                 <div className="space-y-3 text-sm text-muted-foreground">
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="mt-0.5 flex-shrink-0" />
                     <span>
-                      Tech Park Plaza, Sector 45
+                      Hyderabad
                       <br />
-                      Gurugram, Haryana 122003, India
+                      Hyderabad, Telangana 500081, India
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -250,13 +250,12 @@ const Contact = () => {
                       href="mailto:hello@vriddhion.com"
                       className="hover:text-foreground transition-colors"
                     >
-                      hello@vriddhion.com
+                      info@vriddhion.com
                     </a>
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-6">
-                  © {new Date().getFullYear()} Vriddhion & Udaanex. All Rights
-                  Reserved.
+                  © {new Date().getFullYear()} VnU. All Rights Reserved.
                 </p>
               </div>
             </motion.div>
