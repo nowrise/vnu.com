@@ -15,6 +15,9 @@ import Services from "./pages/Services";
 import AIConsulting from "./pages/AIConsulting";
 import TalentSolutions from "./pages/TalentSolutions";
 import NowRiseInstitute from "./pages/NowRiseInstitute";
+import Blogs from "./pages/Blogs";
+import BlogPost from "./pages/BlogPost";
+import ProgramDetail from "./pages/ProgramDetail";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
@@ -56,6 +59,9 @@ const App = () => (
               <Route path="/ai-consulting" element={<AIConsulting />} />
               <Route path="/talent-solutions" element={<TalentSolutions />} />
               <Route path="/nowrise-institute" element={<NowRiseInstitute />} />
+              <Route path="/program/:slug" element={<ProgramDetail />} />
+              <Route path="/blog" element={<Blogs />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/careers" element={<Careers />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/about" element={<About />} />

@@ -15,6 +15,7 @@ import {
   ClipboardList,
   Inbox,
 } from "lucide-react";
+import { BookOpen, FileEdit } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 // Import admin pages
@@ -26,12 +27,16 @@ import UserManagement from "./UserManagement";
 import ContentManagement from "./ContentManagement";
 import FormManagement from "./FormManagement";
 import FormSubmissions from "./FormSubmissions";
+import ProgramManagement from "./ProgramManagement";
+import BlogManagement from "./BlogManagement";
 
 const sidebarLinks = [
   { name: "Overview", path: "/admin", icon: LayoutDashboard },
   { name: "Contact Requests", path: "/admin/contacts", icon: Mail },
   { name: "Career Applications", path: "/admin/careers", icon: Briefcase },
   { name: "NowRise Applications", path: "/admin/nowrise", icon: GraduationCap },
+  { name: "Programs", path: "/admin/programs", icon: BookOpen },
+  { name: "Blogs", path: "/admin/blogs", icon: FileEdit },
   { name: "Users", path: "/admin/users", icon: Users },
   { name: "Content", path: "/admin/content", icon: FileText },
   { name: "Forms", path: "/admin/forms", icon: ClipboardList },
@@ -153,6 +158,8 @@ const AdminDashboard = () => {
             <Route path="/contacts" element={<ContactRequests />} />
             <Route path="/careers" element={<CareerApplications />} />
             <Route path="/nowrise" element={<NowRiseApplications />} />
+            <Route path="/programs" element={<ProgramManagement />} />
+            <Route path="/blogs" element={<BlogManagement />} />
             <Route path="/users" element={<UserManagement />} />
             <Route path="/content" element={<ContentManagement />} />
             <Route path="/forms" element={<FormManagement />} />

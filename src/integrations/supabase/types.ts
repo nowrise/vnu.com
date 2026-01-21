@@ -208,6 +208,117 @@ export type Database = {
         }
         Relationships: []
       }
+      nowrise_blogs: {
+        Row: {
+          author_image: string | null
+          author_name: string
+          content: string
+          cover_image: string | null
+          created_at: string
+          created_by: string | null
+          excerpt: string | null
+          id: string
+          is_published: boolean
+          published_at: string | null
+          read_time: number | null
+          slug: string
+          tags: Json | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_image?: string | null
+          author_name: string
+          content: string
+          cover_image?: string | null
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          read_time?: number | null
+          slug: string
+          tags?: Json | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_image?: string | null
+          author_name?: string
+          content?: string
+          cover_image?: string | null
+          created_at?: string
+          created_by?: string | null
+          excerpt?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          read_time?: number | null
+          slug?: string
+          tags?: Json | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      nowrise_programs: {
+        Row: {
+          content: string | null
+          created_at: string
+          created_by: string | null
+          description: string
+          duration: string | null
+          features: Json | null
+          icon: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          level: string | null
+          price: number | null
+          slug: string
+          sort_order: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          description: string
+          duration?: string | null
+          features?: Json | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          level?: string | null
+          price?: number | null
+          slug: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          created_by?: string | null
+          description?: string
+          duration?: string | null
+          features?: Json | null
+          icon?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          level?: string | null
+          price?: number | null
+          slug?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       otp_codes: {
         Row: {
           attempts: number
