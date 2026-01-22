@@ -145,16 +145,51 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setIsLoading(false);
-
-      if (session?.user && session.access_token) {
+// changed this to the comment below and added another block replacing it below this
+      //if (session?.user && session.access_token) {
         // Set user context for Sentry error tracking
-        setUserContext({ id: session.user.id, email: session.user.email });
-        checkAdminRole(session.access_token, session.user.id).then(setIsAdmin);
-      }
+        //setUserContext({ id: session.user.id, email: session.user.email });
+        //checkAdminRole(session.access_token, session.user.id).then(setIsAdmin);
+      //}
+      if (session?.user) {
+  setUserContext({ id: session.user.id, email: session.user.email });
+} else {
+  clearUserContext();
+  setIsAdmin(false);
+  clearAdminCache();
+}
+
     });
 
     return () => subscription.unsubscribe();
   }, []);
+// fised the second bug by to secure for jwt token absence
+  useEffect(() => {
+  if (!session?.user || !session.access_token) {
+    setIsAdmin(false);
+    return;
+  }
+
+  let cancelled = false;
+
+  const runAdminCheck = async () => {
+    const result = await checkAdminRole(
+      session.access_token,
+      session.user.id
+    );
+
+    if (!cancelled) {
+      setIsAdmin(result);
+    }
+  };
+
+  runAdminCheck();
+
+  return () => {
+    cancelled = true;
+  };
+}, [session?.user?.id, session?.access_token]);
+
 
   const signUp = async (email: string, password: string, fullName?: string) => {
     const redirectUrl = `${window.location.origin}/`;
