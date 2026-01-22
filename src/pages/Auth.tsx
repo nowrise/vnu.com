@@ -363,7 +363,7 @@ const Auth = () => {
       } else {
         toast({
           title: "Account created!",
-          description: "Welcome to Vriddhion & Udaanex.",
+          description: "Welcome to Vnu IT Solutions.",
         });
         navigate("/");
       }
@@ -489,7 +489,7 @@ const Auth = () => {
         {/* Brand */}
         <Link to="/" className="flex flex-col items-center mb-8">
           <span className="font-bold text-xl tracking-tight text-foreground">
-            VnU
+            VnU 
           </span>
           <span className="text-xs text-muted-foreground tracking-wide">
             IT SOLUTIONS PVT LTD
@@ -549,7 +549,7 @@ const Auth = () => {
                   <p className="text-muted-foreground text-center mb-8">
                     {authMode === "login"
                       ? "Sign in to access your account"
-                      : "Join Vriddhion & Udaanex"}
+                      : "Join VnU IT Solutions"}
                   </p>
                 </>
               )}

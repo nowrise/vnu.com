@@ -48,7 +48,7 @@ const About = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl"
           >
-            <h1 className="text-display mb-6">About VnU</h1>
+            <h1 className="text-display mb-6">About Vnu IT Solutions Pvt Ltd</h1>
             <p className="text-body-large mb-8">
               We are an IT and consulting company dedicated to delivering
               technology, AI-driven growth, and skilled talent solutions for

@@ -7,7 +7,7 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": "https://vnuitsolutions.com/#organization",
   name: "VnU IT Solutions",
-  alternateName: ["VnU IT Solutions Pvt Ltd", "VnU"],
+  alternateName: ["Vriddhion & Udaanex IT Solutions Pvt Ltd", "VnU"],
   url: "https://vnuitsolutions.com",
   logo: {
     "@type": "ImageObject",
@@ -20,10 +20,10 @@ const organizationSchema = {
   email: "hello@vriddhion.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Hyderabad",
-    addressLocality: "Hyderabad",
-    addressRegion: "Telangana",
-    postalCode: "500081",
+    streetAddress: "Tech Park Plaza, Sector 45",
+    addressLocality: "Gurugram",
+    addressRegion: "Haryana",
+    postalCode: "122003",
     addressCountry: "IN",
   },
   geo: {
@@ -37,7 +37,7 @@ const organizationSchema = {
     { "@type": "Country", name: "United Kingdom" },
   ],
   sameAs: [
-    "https://www.linkedin.com/company/vnuitsolutions",
+    "https://www.linkedin.com/company/vnu-it-solutions",
   ],
   contactPoint: [
     {

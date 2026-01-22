@@ -1,7 +1,7 @@
 project_id = "rrghotipkrczeyzqvhna"
 
 [functions.submit-form]
-verify_jwt = true
+verify_jwt = false
 
 [functions.check-admin]
 verify_jwt = true
