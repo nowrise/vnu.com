@@ -8,6 +8,7 @@ const allowedOrigins = [
   'https://lovable.dev',
   'https://vnuitsolutions.com',
   'https://www.vnuitsolutions.com',
+  'https://vnu.lovable.app',
 ];
 
 // Pattern-based allowed origins (subdomains)
@@ -24,6 +25,7 @@ function getCorsHeaders(req: Request): Record<string, string> {
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
     };
   }
   
@@ -33,6 +35,7 @@ function getCorsHeaders(req: Request): Record<string, string> {
       return {
         'Access-Control-Allow-Origin': origin,
         'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
       };
     }
   }
@@ -40,7 +43,33 @@ function getCorsHeaders(req: Request): Record<string, string> {
   // Default: no CORS header (blocks the request)
   return {
     'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
   };
+}
+
+// JWT validation helper
+async function validateJWT(req: Request): Promise<{ valid: boolean; userId?: string; error?: string }> {
+  const authHeader = req.headers.get('Authorization');
+  
+  if (!authHeader?.startsWith('Bearer ')) {
+    return { valid: false, error: 'Missing or invalid authorization header' };
+  }
+
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+  const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY')!;
+  
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    global: { headers: { Authorization: authHeader } }
+  });
+
+  const token = authHeader.replace('Bearer ', '');
+  const { data, error } = await supabase.auth.getUser(token);
+  
+  if (error || !data.user) {
+    return { valid: false, error: 'Invalid or expired token' };
+  }
+
+  return { valid: true, userId: data.user.id };
 }
 
 // In-memory rate limiting store (resets on function cold start)
@@ -197,9 +226,22 @@ serve(async (req) => {
                      'unknown';
 
     const body = await req.json();
-    const { formType, data, honeypot, formId } = body;
+    const { formType, data, honeypot, formId, requireAuth } = body;
     // Store formId for later use in validation
     (req as any)._formId = formId;
+
+    // JWT Authentication check (optional based on requireAuth flag)
+    if (requireAuth === true) {
+      const authResult = await validateJWT(req);
+      if (!authResult.valid) {
+        console.warn(`Auth failed for IP ${clientIP}: ${authResult.error}`);
+        return new Response(
+          JSON.stringify({ error: 'Authentication required. Please sign in.' }),
+          { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      console.log(`Authenticated request from user: ${authResult.userId}`);
+    }
 
     // Honeypot check - if this field has any value, it's likely a bot
     if (honeypot) {

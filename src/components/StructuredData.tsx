@@ -7,7 +7,7 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": "https://vnuitsolutions.com/#organization",
   name: "VnU IT Solutions",
-  alternateName: ["Vriddhion & Udaanex IT Solutions Pvt Ltd", "VnU"],
+  alternateName: ["VnU IT Solutions Pvt Ltd", "VnU"],
   url: "https://vnuitsolutions.com",
   logo: {
     "@type": "ImageObject",

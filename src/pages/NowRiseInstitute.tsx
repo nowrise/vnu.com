@@ -230,31 +230,33 @@ const NowRiseInstitute = () => {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{ y: -8 }}
                   >
-                    <Link
-                      to={`/program/${program.slug}`}
-                      className="service-card card-hover group cursor-pointer block h-full bg-background"
-                    >
-                      <motion.div
-                        className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-6"
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        transition={{ type: "spring", stiffness: 300 }}
+                    <div className="service-card card-hover group cursor-pointer block h-full bg-background">
+                      <Link to={`/program/${program.slug}`} className="block">
+                        <motion.div
+                          className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-6"
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          transition={{ type: "spring", stiffness: 300 }}
+                        >
+                          <IconComponent size={24} className="text-foreground group-hover:text-primary transition-colors" />
+                        </motion.div>
+                        <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
+                          {program.title}
+                        </h3>
+                        <p className="text-muted-foreground text-sm mb-4">
+                          {program.description}
+                        </p>
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                          {program.duration && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{program.duration}</span>}
+                          {program.level && <span className="text-primary">{program.level}</span>}
+                        </div>
+                      </Link>
+                      <Link 
+                        to={`/contact?purpose=training&program=${encodeURIComponent(program.title)}`}
+                        className="inline-flex items-center gap-2 text-primary text-sm font-medium hover:underline"
                       >
-                        <IconComponent size={24} className="text-foreground group-hover:text-primary transition-colors" />
-                      </motion.div>
-                      <h3 className="text-xl font-semibold mb-3 group-hover:text-primary transition-colors">
-                        {program.title}
-                      </h3>
-                      <p className="text-muted-foreground text-sm mb-4">
-                        {program.description}
-                      </p>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                        {program.duration && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{program.duration}</span>}
-                        {program.level && <span className="text-primary">{program.level}</span>}
-                      </div>
-                      <div className="flex items-center gap-2 text-primary text-sm font-medium">
                         Enroll Now <ArrowRight className="h-4 w-4" />
-                      </div>
-                    </Link>
+                      </Link>
+                    </div>
                   </motion.div>
                 );
               })}

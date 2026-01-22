@@ -489,7 +489,7 @@ const Auth = () => {
         {/* Brand */}
         <Link to="/" className="flex flex-col items-center mb-8">
           <span className="font-bold text-xl tracking-tight text-foreground">
-            VRIDDHION & UDAANEX
+            VnU
           </span>
           <span className="text-xs text-muted-foreground tracking-wide">
             IT SOLUTIONS PVT LTD

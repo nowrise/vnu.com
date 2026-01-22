@@ -1,10 +1,11 @@
 import { Layout } from "@/components/layout";
 import { motion } from "framer-motion";
-import { Users, UserCheck, Award, Settings, ArrowRight } from "lucide-react";
+import { Users, UserCheck, Award, Settings, ArrowRight, Mail, MapPin } from "lucide-react";
 import { ProcessStep, SectionHeader } from "@/components/ui/shared-sections";
 import heroTalent from "@/assets/hero-talent.jpg";
 import { DynamicFormDisplay } from "@/components/DynamicFormDisplay";
 import { SEOHead } from "@/components/SEOHead";
+import { Link } from "react-router-dom";
 
 const solutions = [
   {
@@ -130,6 +131,75 @@ const TalentSolutions = () => {
               isLast
             />
           </div>
+        </div>
+      </section>
+
+      {/* Contact CTA Section */}
+      <section className="section-padding">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid lg:grid-cols-2 gap-12 items-center"
+          >
+            <div>
+              <h2 className="text-heading mb-4">Ready to Scale Your Team?</h2>
+              <p className="text-body-large mb-6">
+                Connect with us to discuss your talent requirements. Whether you need 
+                interns, freelancers, or dedicated resources, we have the right solution.
+              </p>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-center gap-3 text-muted-foreground">
+                  <Mail size={18} className="text-primary" />
+                  <a href="mailto:talent@vriddhion.com" className="hover:text-foreground transition-colors">
+                    talent@vriddhion.com
+                  </a>
+                </div>
+                <div className="flex items-start gap-3 text-muted-foreground">
+                  <MapPin size={18} className="text-primary mt-0.5" />
+                  <span>Tech Park Plaza, Sector 45, Gurugram, Haryana</span>
+                </div>
+              </div>
+              <Link to="/contact?purpose=hiring" className="btn-gold inline-flex items-center gap-2">
+                Get in Touch <ArrowRight size={16} />
+              </Link>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="glass-card p-8 rounded-xl"
+            >
+              <h3 className="text-xl font-semibold mb-6">Quick Enquiry</h3>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4 p-4 bg-background rounded-lg">
+                  <Users className="text-primary mt-1" size={20} />
+                  <div>
+                    <h4 className="font-medium">Talent Hiring</h4>
+                    <p className="text-sm text-muted-foreground">Interns, freelancers, and full-time professionals</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 bg-background rounded-lg">
+                  <Award className="text-primary mt-1" size={20} />
+                  <div>
+                    <h4 className="font-medium">Expert Onboarding</h4>
+                    <p className="text-sm text-muted-foreground">Trainers and subject matter experts</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 bg-background rounded-lg">
+                  <Settings className="text-primary mt-1" size={20} />
+                  <div>
+                    <h4 className="font-medium">Resource Outsourcing</h4>
+                    <p className="text-sm text-muted-foreground">Dedicated teams for specific functions</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 

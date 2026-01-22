@@ -1,6 +1,6 @@
 import { Layout } from "@/components/layout";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -11,6 +11,7 @@ import { AuthRequiredForm } from "@/components/auth/AuthRequiredForm";
 import { DynamicFormDisplay } from "@/components/DynamicFormDisplay";
 import { SEOHead } from "@/components/SEOHead";
 import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router-dom";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
@@ -19,7 +20,7 @@ const contactSchema = z.object({
   program: z.string().optional(),
   phone: z.string().optional(),
   education: z.string().optional(),
-  message: z.string().min(10, "Message must be at least 10 characters").max(1000),
+  message: z.string().optional(),
 }).refine((data) => {
   // If training enquiry, program is required
   if (data.purpose === "training" && !data.program) {
@@ -29,6 +30,15 @@ const contactSchema = z.object({
 }, {
   message: "Please select a program",
   path: ["program"],
+}).refine((data) => {
+  // Message required only for non-training enquiries
+  if (data.purpose !== "training" && (!data.message || data.message.length < 10)) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Message must be at least 10 characters",
+  path: ["message"],
 });
 
 type ContactFormData = z.infer<typeof contactSchema>;
@@ -51,7 +61,7 @@ const enquiryTypes = [
   },
 ];
 
-const ContactForm = () => {
+const ContactForm = ({ defaultPurpose, defaultProgram }: { defaultPurpose?: string; defaultProgram?: string }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [honeypot, setHoneypot] = useState("");
 
@@ -75,15 +85,28 @@ const ContactForm = () => {
     watch,
     reset,
     control,
+    setValue,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      program: "",
+      purpose: defaultPurpose || "",
+      program: defaultProgram || "",
       phone: "",
       education: "",
+      message: "",
     },
   });
+
+  // Set values from URL params on mount
+  useEffect(() => {
+    if (defaultPurpose) {
+      setValue("purpose", defaultPurpose);
+    }
+    if (defaultProgram) {
+      setValue("program", defaultProgram);
+    }
+  }, [defaultPurpose, defaultProgram, setValue]);
 
   const selectedPurpose = watch("purpose");
   const isTrainingEnquiry = selectedPurpose === "training";
@@ -97,6 +120,7 @@ const ContactForm = () => {
           body: {
             formType: 'nowrise_applications',
             honeypot: honeypot,
+            requireAuth: true,
             data: {
               name: data.name,
               email: data.email,
@@ -125,11 +149,12 @@ const ContactForm = () => {
           body: {
             formType: 'contact_requests',
             honeypot: honeypot,
+            requireAuth: true,
             data: {
               name: data.name,
               email: data.email,
               purpose: data.purpose,
-              message: data.message,
+              message: data.message || "",
             }
           }
         });
@@ -356,6 +381,10 @@ const ContactForm = () => {
 };
 
 const Contact = () => {
+  const [searchParams] = useSearchParams();
+  const defaultPurpose = searchParams.get("purpose") || undefined;
+  const defaultProgram = searchParams.get("program") || undefined;
+
   return (
     <Layout>
       <SEOHead />
@@ -425,7 +454,7 @@ const Contact = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <AuthRequiredForm message="Please sign in to send us a message. This helps us serve you better.">
-                <ContactForm />
+                <ContactForm defaultPurpose={defaultPurpose} defaultProgram={defaultProgram} />
               </AuthRequiredForm>
             </motion.div>
           </div>
