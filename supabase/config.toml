@@ -4,7 +4,7 @@ project_id = "rrghotipkrczeyzqvhna"
 verify_jwt = false
 
 [functions.check-admin]
-verify_jwt = true
+verify_jwt = false
 
 [functions.send-otp]
-verify_jwt = true
+verify_jwt = false
