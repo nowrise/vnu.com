@@ -120,7 +120,6 @@ const ContactForm = ({ defaultPurpose, defaultProgram }: { defaultPurpose?: stri
           body: {
             formType: 'nowrise_applications',
             honeypot: honeypot,
-            requireAuth: true,
             data: {
               name: data.name,
               email: data.email,
@@ -149,7 +148,6 @@ const ContactForm = ({ defaultPurpose, defaultProgram }: { defaultPurpose?: stri
           body: {
             formType: 'contact_requests',
             honeypot: honeypot,
-            requireAuth: true,
             data: {
               name: data.name,
               email: data.email,
