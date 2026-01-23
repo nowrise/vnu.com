@@ -10,7 +10,7 @@ const footerLinks = {
   ],
   contact: [
     { name: "LinkedIn", path: "https://www.linkedin.com/company/vnuitsolutions" },
-    { name: "Email Us", path: "mailto:info@vnuitsolutions.com" },
+    { name: "Email Us", path: "https://mail.google.com/mail/?view=cm&fs=1&to=info@vnuitsolutions.com", target: "_blank" },
   ],
 };
 
@@ -44,8 +44,9 @@ export const Footer = () => {
             <div className="flex items-center gap-3 text-accent-foreground/80">
               <Mail size={18} className="flex-shrink-0" />
               <a
-                href="mailto:hello@vriddhion.com"
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=info@vnuitsolutions.com"
                 className="text-sm hover:text-accent-foreground transition-colors"
+                target="_blank"
               >
                 info@vnuitsolutions.com
               </a>
