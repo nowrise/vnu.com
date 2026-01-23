@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import logoImage from "../assets/logo.png";
 
 interface SEOHeadProps {
   title?: string;
@@ -124,7 +123,7 @@ export const SEOHead = ({
 
     // Update favicon and logo links
     updateLink("icon", "/favicon.ico", "image/x-icon");
-    updateLink("apple-touch-icon", logoImage);
+    updateLink("apple-touch-icon", "/logo.png");
     updateLink("shortcut icon", "/favicon.ico");
 
     // Standard meta tags
@@ -149,7 +148,7 @@ export const SEOHead = ({
     updateMeta("og:type", "website", true);
     updateMeta("og:site_name", "VnU IT Solutions", true);
     updateMeta("og:locale", "en_US", true);
-    updateMeta("og:logo", logoImage, true);
+    updateMeta("og:logo", "https://vnuitsolutions.com/logo.png", true);
 
     // Article-specific OG tags
     if (articlePublishedTime) {
