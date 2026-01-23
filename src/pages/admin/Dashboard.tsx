@@ -68,7 +68,7 @@ const AdminDashboard = () => {
           <div className="p-6 border-b border-accent-foreground/10">
             <Link to="/" replace className="flex flex-col">
               <span className="font-bold text-lg tracking-tight">
-                VRIDDHION & UDAANEX
+                VnU IT Solutions
               </span>
               <span className="text-xs text-accent-foreground/70 tracking-wide">
                 Admin Dashboard

@@ -423,9 +423,9 @@ const Contact = () => {
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="mt-0.5 flex-shrink-0" />
                     <span>
-                      Tech Park Plaza, Sector 45
+                      Hyderabad
                       <br />
-                      Gurugram, Haryana 122003, India
+                      Hyderabad, Telangana 500081, India
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
@@ -434,12 +434,12 @@ const Contact = () => {
                       href="mailto:hello@vriddhion.com"
                       className="hover:text-foreground transition-colors"
                     >
-                      hello@vriddhion.com
+                      info@vnuitsolutions.com
                     </a>
                   </div>
                 </div>
                 <p className="text-xs text-muted-foreground mt-6">
-                  © {new Date().getFullYear()} Vriddhion & Udaanex. All Rights
+                  © {new Date().getFullYear()} VnU IT Solutions Pvt Ltd. All Rights
                   Reserved.
                 </p>
               </div>

@@ -153,13 +153,14 @@ const TalentSolutions = () => {
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <Mail size={18} className="text-primary" />
-                  <a href="mailto:talent@vriddhion.com" className="hover:text-foreground transition-colors">
-                    talent@vriddhion.com
+                  <a //href="mailto:business@vnuitsolutions.com" 
+                  className="hover:text-foreground transition-colors">
+                    business@vnuitsolutions.com
                   </a>
                 </div>
                 <div className="flex items-start gap-3 text-muted-foreground">
                   <MapPin size={18} className="text-primary mt-0.5" />
-                  <span>Tech Park Plaza, Sector 45, Gurugram, Haryana</span>
+                  <span>Hyderabad, 500081, Hyderabad, Telangana</span>
                 </div>
               </div>
               <Link to="/contact?purpose=hiring" className="btn-gold inline-flex items-center gap-2">
