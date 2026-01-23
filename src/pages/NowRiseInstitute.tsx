@@ -393,7 +393,7 @@ const NowRiseInstitute = () => {
               <h2 className="text-heading mb-4">Aligned with Industry Needs</h2>
               <p className="text-body-large">
                 Our training programs are designed in alignment with real business
-                projects and talent requirements from Vriddhion & Udaanex.
+                projects and talent requirements from VnU IT Solutions.
               </p>
             </div>
             <motion.div whileHover={{ scale: 1.05 }} transition={{ type: "spring", stiffness: 300 }}>
