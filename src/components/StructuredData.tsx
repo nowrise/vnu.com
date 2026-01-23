@@ -9,13 +9,8 @@ const organizationSchema = {
   name: "VnU IT Solutions",
   alternateName: ["VnU IT Solutions Pvt Ltd", "VnU"],
   url: "https://vnuitsolutions.com",
-  logo: {
-    "@type": "ImageObject",
-    url: "https://vnuitsolutions.com/logo.png",
-    width: 512,
-    height: 512,
-  },
-  image: "https://vnuitsolutions.com/og-image.png",
+  logo: "https://vnuitsolutions.com/logo.png",
+  image: "https://vnuitsolutions.com/logo.png",
   description: "VnU IT Solutions delivers enterprise software development, AI consulting, and talent solutions for modern businesses.",
   email: "info@vnuitsolutions.com",
   address: {
@@ -28,8 +23,8 @@ const organizationSchema = {
   },
   geo: {
     "@type": "GeoCoordinates",
-    latitude: "28.4595",
-    longitude: "77.0266",
+    latitude: "17.366° N",
+    longitude: "78.476° E",
   },
   areaServed: [
     { "@type": "Country", name: "India" },
