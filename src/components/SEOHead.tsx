@@ -98,6 +98,20 @@ export const SEOHead = ({
       }
     };
 
+    const updateLink = (rel: string, href: string, type?: string) => {
+      let link = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement;
+      if (link) {
+        link.href = href;
+        if (type) link.type = type;
+      } else {
+        link = document.createElement("link");
+        link.rel = rel;
+        link.href = href;
+        if (type) link.type = type;
+        document.head.appendChild(link);
+      }
+    };
+
     const removeMeta = (name: string, isProperty = false) => {
       const attr = isProperty ? "property" : "name";
       const meta = document.querySelector(`meta[${attr}="${name}"]`);
@@ -105,15 +119,12 @@ export const SEOHead = ({
     };
 
     // Update canonical
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-    if (canonical) {
-      canonical.href = canonicalUrl;
-    } else {
-      canonical = document.createElement("link");
-      canonical.rel = "canonical";
-      canonical.href = canonicalUrl;
-      document.head.appendChild(canonical);
-    }
+    updateLink("canonical", canonicalUrl);
+
+    // Update favicon and logo links
+    updateLink("icon", "/favicon.ico", "image/x-icon");
+    updateLink("apple-touch-icon", "/logo.png");
+    updateLink("shortcut icon", "/favicon.ico");
 
     // Standard meta tags
     updateMeta("description", finalDescription);
@@ -137,6 +148,7 @@ export const SEOHead = ({
     updateMeta("og:type", "website", true);
     updateMeta("og:site_name", "VnU IT Solutions", true);
     updateMeta("og:locale", "en_US", true);
+    updateMeta("og:logo", "https://vnuitsolutions.com/logo.png", true);
 
     // Article-specific OG tags
     if (articlePublishedTime) {
@@ -163,9 +175,9 @@ export const SEOHead = ({
     updateMeta("publisher", "VnU IT Solutions");
     updateMeta("copyright", `© ${new Date().getFullYear()} VnU IT Solutions`);
     updateMeta("geo.region", "IN-HR");
-    updateMeta("geo.placename", "Gurugram");
-    updateMeta("geo.position", "28.4595;77.0266");
-    updateMeta("ICBM", "28.4595, 77.0266");
+    updateMeta("geo.placename", "Hyderabad");
+    updateMeta("geo.position", "17.366° N;78.476° E");
+    updateMeta("ICBM", "17.366, 78.476");
     
   }, [finalTitle, finalDescription, finalKeywords, finalOgImage, canonicalUrl, noIndex, articlePublishedTime, articleModifiedTime]);
 
