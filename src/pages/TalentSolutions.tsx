@@ -153,9 +153,9 @@ const TalentSolutions = () => {
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3 text-muted-foreground">
                   <Mail size={18} className="text-primary" />
-                  <a //href="mailto:business@vnuitsolutions.com" 
+                  <a //href="mailto:info@vnuitsolutions.com" 
                   className="hover:text-foreground transition-colors">
-                    business@vnuitsolutions.com
+                    info@vnuitsolutions.com
                   </a>
                 </div>
                 <div className="flex items-start gap-3 text-muted-foreground">
