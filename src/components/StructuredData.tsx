@@ -9,8 +9,8 @@ const organizationSchema = {
   name: "VnU IT Solutions",
   alternateName: ["VnU IT Solutions Pvt Ltd", "VnU"],
   url: "https://vnuitsolutions.com",
-  logo: "https://vnuitsolutions.com/logo.png",
-  image: "https://vnuitsolutions.com/logo.png",
+  logo: "https://vnuitsolutions.com/assets/logo.png",
+  image: "https://vnuitsolutions.com/assets/logo.png",
   description: "VnU IT Solutions delivers enterprise software development, AI consulting, and talent solutions for modern businesses.",
   email: "info@vnuitsolutions.com",
   address: {
