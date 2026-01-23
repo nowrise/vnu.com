@@ -108,7 +108,12 @@ const Auth = () => {
 
   // Redirect if already logged in (but not if awaiting OTP verification or in reset mode)
   useEffect(() => {
-    if (user && !isResetMode && !awaitingOtpVerification && authMode !== "otp") {
+    // Never redirect when in reset mode - user needs to update password
+    if (isResetMode || authMode === "reset") {
+      return;
+    }
+    
+    if (user && !awaitingOtpVerification && authMode !== "otp") {
       navigate("/");
     }
   }, [user, navigate, isResetMode, awaitingOtpVerification, authMode]);
@@ -363,7 +368,7 @@ const Auth = () => {
       } else {
         toast({
           title: "Account created!",
-          description: "Welcome to Vnu IT Solutions.",
+          description: "Welcome to Vriddhion & Udaanex.",
         });
         navigate("/");
       }
@@ -457,11 +462,18 @@ const Auth = () => {
           variant: "destructive",
         });
       } else {
+        // Sign out the recovery session for security
+        await supabase.auth.signOut();
+        
         toast({
           title: "Password updated!",
-          description: "Your password has been successfully changed.",
+          description: "Your password has been successfully changed. Please log in with your new password.",
         });
-        navigate("/");
+        
+        // Redirect to login page (not home, since we signed out)
+        setAuthMode("login");
+        // Clear the reset query param
+        navigate("/auth", { replace: true });
       }
     } catch (error) {
       toast({
@@ -489,7 +501,7 @@ const Auth = () => {
         {/* Brand */}
         <Link to="/" className="flex flex-col items-center mb-8">
           <span className="font-bold text-xl tracking-tight text-foreground">
-            VnU 
+            VRIDDHION & UDAANEX
           </span>
           <span className="text-xs text-muted-foreground tracking-wide">
             IT SOLUTIONS PVT LTD
@@ -549,7 +561,7 @@ const Auth = () => {
                   <p className="text-muted-foreground text-center mb-8">
                     {authMode === "login"
                       ? "Sign in to access your account"
-                      : "Join VnU IT Solutions"}
+                      : "Join Vriddhion & Udaanex"}
                   </p>
                 </>
               )}
