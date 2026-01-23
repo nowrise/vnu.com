@@ -88,13 +88,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       if (import.meta.env.DEV) console.log("Admin check response:", { data, error });
 
-      // Handle 401 unauthorized silently - user is not logged in or token is invalid
       if (error) {
-        // Check if it's a 401 response (unauthorized) - this is expected for non-logged-in users
-        const is401 = error.message?.includes('401') || error.message?.includes('unauthorized');
-        if (!is401 && import.meta.env.DEV) {
-          console.error("Error checking admin role:", error);
-        }
+        if (import.meta.env.DEV) console.error("Error checking admin role:", error);
         // Clear cache on error to allow retry
         clearAdminCache();
         return false;
