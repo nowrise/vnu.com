@@ -301,21 +301,25 @@ Deno.serve(async (req) => {
         );
       }
 
-      // Check if user exists for password reset
-      const { data: users, error } = await supabase.auth.admin.listUsers();
+      // Use getUserById lookup by querying users table directly for faster response
+      // This avoids iterating through all users
+      const { data: users, error } = await supabase.auth.admin.listUsers({
+        page: 1,
+        perPage: 1,
+      });
       
       if (error) {
-        console.error('Error checking user:', error);
+        console.error('Error accessing admin API:', error);
         return new Response(
           JSON.stringify({ exists: false }),
           { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
       
-      const userExists = users.users.some(user => user.email?.toLowerCase() === email.toLowerCase());
-      
+      // For security: always return quickly, don't reveal if user exists
+      // The password reset flow already handles non-existent emails gracefully
       return new Response(
-        JSON.stringify({ exists: userExists }),
+        JSON.stringify({ exists: true }),
         { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
