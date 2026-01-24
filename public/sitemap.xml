@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <!-- Homepage - Highest Priority -->
   <url>
@@ -10,11 +8,6 @@
     <lastmod>2026-01-24T12:00:00+05:30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://vnuitsolutions.com/og-image.png</image:loc>
-      <image:title>VnU IT Solutions - Enterprise Software, AI Consulting & Talent Solutions</image:title>
-      <image:caption>Leading IT solutions provider in Hyderabad, India</image:caption>
-    </image:image>
   </url>
 
   <!-- Main Service Pages - High Priority -->
@@ -71,7 +64,7 @@
   </url>
 
   <!-- Specific Service Sub-pages (Add these if you have them) -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/services/custom-software-development</loc>
     <lastmod>2026-01-15T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
@@ -97,10 +90,10 @@
     <lastmod>2026-01-15T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url> -->
+  </url>
 
   <!-- AI Consulting Sub-pages -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/ai-consulting/machine-learning</loc>
     <lastmod>2026-01-15T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
@@ -119,10 +112,10 @@
     <lastmod>2026-01-15T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-  </url> -->
+  </url>
 
   <!-- Industries/Solutions (if applicable) -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/industries/healthcare</loc>
     <lastmod>2026-01-10T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
@@ -134,29 +127,29 @@
     <lastmod>2026-01-10T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url> -->
+  </url>
 
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/industries/retail</loc>
     <lastmod>2026-01-10T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url> -->
+  </url>
 
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/industries/manufacturing</loc>
     <lastmod>2026-01-10T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>  -->
+  </url>
 
   <!-- Case Studies/Portfolio (Add as you create them) -->
- <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/case-studies</loc>
     <lastmod>2026-01-20T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url> -->
+  </url>
 
   <!-- Blog/Resources (if you have a blog) -->
   <url>
@@ -167,22 +160,22 @@
   </url>
 
   <!-- Example Blog Posts (Add dynamically as you publish) -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/blog/ai-trends-2026</loc>
     <lastmod>2026-01-22T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url> -->
+  </url>
 
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/blog/cloud-migration-guide</loc>
     <lastmod>2026-01-18T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url> -->
+  </url>
 
   <!-- Legal/Policy Pages -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/privacy-policy</loc>
     <lastmod>2026-01-01T10:00:00+05:30</lastmod>
     <changefreq>yearly</changefreq>
@@ -194,37 +187,37 @@
     <lastmod>2026-01-01T10:00:00+05:30</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
-  </url> -->
+  </url>
 
   <!-- FAQ Page -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/faq</loc>
     <lastmod>2026-01-15T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url> -->
+  </url>
 
   <!-- Testimonials/Reviews -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/testimonials</loc>
     <lastmod>2026-01-15T10:00:00+05:30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
-  </url> -->
+  </url>
 
   <!-- Job Listings (Add individual job posts if they have unique URLs) -->
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/careers/senior-software-engineer</loc>
     <lastmod>2026-01-24T10:00:00+05:30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-  </url> -->
+  </url>
 
-  <!-- <url>
+  <url>
     <loc>https://vnuitsolutions.com/careers/ai-ml-engineer</loc>
     <lastmod>2026-01-24T10:00:00+05:30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
-  </url> -->
+  </url>
 
 </urlset>
