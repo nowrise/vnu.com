@@ -1,6 +1,9 @@
 # VnU IT Solutions - Robots.txt
 # Production-safe configuration for optimal crawling
 
+# Host directive for preferred domain
+Host: https://vnuitsolutions.com
+
 # Default rules for all crawlers
 User-agent: *
 Allow: /
@@ -71,5 +74,5 @@ Sitemap: https://vnuitsolutions.com/sitemap.xml
 # Crawl-delay for respectful crawling (1 second)
 Crawl-delay: 1
 
-# Host directive for preferred domain
-Host: https://vnuitsolutions.com
+
+
