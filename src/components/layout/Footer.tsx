@@ -36,15 +36,15 @@ export const Footer = () => {
             <div className="flex items-start gap-3 text-accent-foreground/80 mb-3">
               <MapPin size={18} className="mt-0.5 flex-shrink-0" />
               <span className="text-sm">
-                Hyderabad
+                Lb Nagar
                 <br />
-                Hyderabad, Telangana, 500081, India
+                Hyderabad, Telangana, 500074, India
               </span>
             </div>
             <div className="flex items-center gap-3 text-accent-foreground/80">
               <Mail size={18} className="flex-shrink-0" />
               <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=info@vnuitsolutions.com"
+                href="mailto:info@vnuitsolutions.com"
                 className="text-sm hover:text-accent-foreground transition-colors"
                 target="_blank"
               >

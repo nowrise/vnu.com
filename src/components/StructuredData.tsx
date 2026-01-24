@@ -15,10 +15,10 @@ const organizationSchema = {
   email: "info@vnuitsolutions.com",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "Hyderabad",
+    streetAddress: "Lb Nagar",
     addressLocality: "Hyderabad",
     addressRegion: "Telangana",
-    postalCode: "500084",
+    postalCode: "500074",
     addressCountry: "IN",
   },
   geo: {
@@ -171,10 +171,10 @@ const serviceSchemas: Record<string, object> = {
     parentOrganization: { "@id": "https://vnuitsolutions.com/#organization" },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Hyderabad",
+      streetAddress: "Lb Nagar",
       addressLocality: "Hyderabad",
       addressRegion: "Telangana",
-      postalCode: "500084",
+      postalCode: "500074",
       addressCountry: "IN",
     },
   },
@@ -246,7 +246,7 @@ const faqSchema = {
       name: "Where is VnU IT Solutions located?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "VnU IT Solutions is headquartered in Gurugram, Haryana, India at Tech Park Plaza, Sector 45. We serve clients globally across India, United States, and United Kingdom.",
+        text: "VnU IT Solutions is headquartered in Hyderabad, Haryana, India at Tech Park Plaza, Sector 45. We serve clients globally across India, United States, and United Kingdom.",
       },
     },
     {

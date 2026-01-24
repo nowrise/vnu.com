@@ -423,15 +423,15 @@ const Contact = () => {
                   <div className="flex items-start gap-3">
                     <MapPin size={16} className="mt-0.5 flex-shrink-0" />
                     <span>
-                      Hyderabad
+                      Lb Nagar
                       <br />
-                      Hyderabad, Telangana 500081, India
+                      Hyderabad, Telangana 500074, India
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <Mail size={16} className="flex-shrink-0" />
                     <a
-                      href="mailto:hello@vriddhion.com"
+                      href="mailto:info@vnuitsolutions.com"
                       className="hover:text-foreground transition-colors"
                     >
                       info@vnuitsolutions.com
