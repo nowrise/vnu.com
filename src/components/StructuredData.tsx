@@ -246,7 +246,7 @@ const faqSchema = {
       name: "Where is VnU IT Solutions located?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "VnU IT Solutions is headquartered in Hyderabad, Haryana, India at Tech Park Plaza, Sector 45. We serve clients globally across India, United States, and United Kingdom.",
+        text: "VnU IT Solutions is headquartered in Hyderabad, Telangana, Lb Nagar. We serve clients globally across India, United States, and United Kingdom.",
       },
     },
     {
