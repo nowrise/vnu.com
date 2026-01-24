@@ -1,74 +1,51 @@
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-<url>
-<loc>https://vnuitsolutions.com/</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>weekly</changefreq>
-<priority>1</priority>
-<image:image>
-<image:loc>https://vnuitsolutions.com/og-image.png</image:loc>
-<image:title>VnU IT Solutions - Technology, AI & Talent Solutions</image:title>
-</image:image>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/services</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.9</priority>
-<image:image>
-<image:loc>https://vnuitsolutions.com/assets/hero-services.jpg</image:loc>
-<image:title>IT Services & Software Development</image:title>
-</image:image>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/ai-consulting</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.9</priority>
-<image:image>
-<image:loc>https://vnuitsolutions.com/assets/hero-consulting.jpg</image:loc>
-<image:title>AI Consulting & Machine Learning Solutions</image:title>
-</image:image>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/talent-solutions</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.9</priority>
-<image:image>
-<image:loc>https://vnuitsolutions.com/assets/hero-talent.jpg</image:loc>
-<image:title>IT Talent Solutions & Staff Augmentation</image:title>
-</image:image>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/nowrise-institute</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.8</priority>
-<image:image>
-<image:loc>https://vnuitsolutions.com/assets/hero-nowrise.jpg</image:loc>
-<image:title>NowRise Institute - IT Training & Skill Development</image:title>
-</image:image>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/careers</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>weekly</changefreq>
-<priority>0.8</priority>
-<image:image>
-<image:loc>https://vnuitsolutions.com/assets/hero-careers.jpg</image:loc>
-<image:title>Careers at VnU IT Solutions</image:title>
-</image:image>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/about</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-<url>
-<loc>https://vnuitsolutions.com/contact</loc>
-<lastmod>2026-01-20</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://vnuitsolutions.com/</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/services</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/ai-consulting</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/talent-solutions</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/nowrise-institute</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/careers</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/about</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://vnuitsolutions.com/contact</loc>
+    <lastmod>2026-01-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

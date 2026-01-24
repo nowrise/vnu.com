@@ -42,6 +42,7 @@ Disallow: /profile
 # Googlebot Image
 User-agent: Googlebot-Image
 Allow: /assets/
+Allow: /public/
 Allow: /images/
 Allow: /*.jpg$
 Allow: /*.jpeg$
