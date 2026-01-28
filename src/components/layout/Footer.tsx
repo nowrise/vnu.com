@@ -10,7 +10,7 @@ const footerLinks = {
   ],
   contact: [
     { name: "LinkedIn", path: "https://www.linkedin.com/company/vnuitsolutions" },
-    { name: "Email Us", path: "https://mail.google.com/mail/?view=cm&fs=1&to=info@vnuitsolutions.com", target: "_blank" },
+    { name: "Email Us", path: "mailto:info@vnuitsolutions.com", target: "_blank" },
   ],
 };
 
